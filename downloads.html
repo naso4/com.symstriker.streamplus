@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloads — WotStreamPlus</title>
+  <script>
+    (function () {
+      var p = new URLSearchParams(window.location.search);
+      var fromUrl = p.get('lang');
+      var saved = localStorage.getItem('wsp-lang');
+      var lang = fromUrl || saved || (/^(uk|ru)/i.test(navigator.language || '') ? 'uk' : 'en');
+      if (fromUrl) localStorage.setItem('wsp-lang', fromUrl);
+      document.documentElement.className = 'lang-' + lang;
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #4f7ef8;
+      --text: #e4e6f0;
+      --text-muted: #8890b0;
+      --sidebar-w: 220px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    body { background: var(--bg); }
+
+    html.lang-en [lang="uk"] { display: none; }
+    html.lang-uk [lang="en"] { display: none; }
+
+    .shell { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 0 20px 24px;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    .sidebar-logo span { color: var(--accent); }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      padding: 12px 20px 6px;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 8px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      font-size: 13px;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,126,248,0.08); }
+
+    .lang-switcher {
+      margin-top: auto;
+      padding: 16px 20px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .lang-switcher button {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-switcher button:hover { color: var(--text); border-color: var(--accent); }
+    .lang-switcher button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 48px 40px;
+      max-width: 860px;
+    }
+
+    .page-header { margin-bottom: 36px; }
+    .page-header h1 { font-size: 26px; font-weight: 700; }
+    .page-header p { margin-top: 6px; color: var(--text-muted); font-size: 13px; }
+
+    /* ── Download list ── */
+    .download-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .download-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .download-info { display: flex; flex-direction: column; gap: 4px; }
+
+    .download-version {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .download-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+    }
+
+    .download-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .download-btn:hover { background: #3a68e0; }
+
+    /* ── Empty state ── */
+    .empty-state {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 48px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .empty-state-icon {
+      font-size: 32px;
+      opacity: 0.3;
+      margin-bottom: 4px;
+    }
+
+    .empty-state h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 340px;
+      line-height: 1.6;
+    }
+
+    .download-meta a { color: var(--accent); text-decoration: none; }
+    .download-meta a:hover { text-decoration: underline; }
+
+    .system-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .page-footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">Wot<span>Stream+</span></div>
+
+    <p class="nav-section-label"><span lang="en">Pages</span><span lang="uk">Сторінки</span></p>
+    <ul class="sidebar-nav">
+      <li><a href="index.html"><span lang="en">Overview</span><span lang="uk">Огляд</span></a></li>
+      <li><a href="manual.html"><span lang="en">User Manual</span><span lang="uk">Посібник</span></a></li>
+      <li><a href="releases.html"><span lang="en">Releases</span><span lang="uk">Релізи</span></a></li>
+      <li><a href="downloads.html" class="active"><span lang="en">Downloads</span><span lang="uk">Завантаження</span></a></li>
+    </ul>
+
+    <div class="lang-switcher">
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+      <button id="btn-uk" onclick="setLang('uk')">UK</button>
+    </div>
+  </nav>
+
+  <main class="content">
+
+    <div class="page-header">
+      <h1><span lang="en">Downloads</span><span lang="uk">Завантаження</span></h1>
+      <p>
+        <span lang="en">Download WotStreamPlus for Windows. Requires Windows 10 or later.</span>
+        <span lang="uk">Завантажте WotStreamPlus для Windows. Потрібна Windows 10 або новіша.</span>
+      </p>
+    </div>
+
+    <div class="download-list">
+
+      <div class="download-item">
+        <div class="download-info">
+          <div class="download-version">WotStreamPlus v1.0.1</div>
+          <div class="download-meta">
+            <span>2026-05-29</span>
+            <span>Windows 10 / 11 &nbsp;&middot;&nbsp; 64-bit</span>
+            <a href="releases.html#v1.0.1"><span lang="en">Release notes</span><span lang="uk">Примітки до релізу</span></a>
+          </div>
+        </div>
+        <a class="download-btn" href="downloads/WotStreamPlus-1.0.1-Setup.exe" download>
+          <span lang="en">Download</span><span lang="uk">Завантажити</span>
+        </a>
+      </div>
+
+      <div class="download-item">
+        <div class="download-info">
+          <div class="download-version">WotStreamPlus v1.0.0.0</div>
+          <div class="download-meta">
+            <span>2026-05-13</span>
+            <span>Windows 10 / 11 &nbsp;&middot;&nbsp; 64-bit</span>
+            <a href="releases.html#v1.0.0.0"><span lang="en">Release notes</span><span lang="uk">Примітки до релізу</span></a>
+          </div>
+        </div>
+        <a class="download-btn" href="downloads/WotStreamPlus-1.0.0-Setup.exe" download>
+          <span lang="en">Download</span><span lang="uk">Завантажити</span>
+        </a>
+      </div>
+
+    </div>
+
+    <p class="system-note" lang="en">WotStreamPlus runs on Windows 10 and Windows 11 (64-bit).</p>
+    <p class="system-note" lang="uk">WotStreamPlus працює на Windows 10 та Windows 11 (64-розрядна).</p>
+
+    <footer class="page-footer">
+      &copy; 2026 Symstriker. <span lang="en">All rights reserved.</span><span lang="uk">Усі права захищені.</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.className = 'lang-' + lang;
+    localStorage.setItem('wsp-lang', lang);
+    var url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-uk').classList.toggle('active', lang === 'uk');
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:') || a.hasAttribute('download')) return;
+    e.preventDefault();
+    var lang = (document.documentElement.className.match(/lang-(\w+)/) || [])[1];
+    var url = new URL(href, window.location.href);
+    if (lang) url.searchParams.set('lang', lang);
+    window.location.href = url.toString();
+  });
+
+  (function () {
+    var lang = /lang-(\w+)/.exec(document.documentElement.className);
+    if (lang) setLang(lang[1]);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WotStreamPlus</title>
+  <script>
+    (function () {
+      var p = new URLSearchParams(window.location.search);
+      var fromUrl = p.get('lang');
+      var saved = localStorage.getItem('wsp-lang');
+      var lang = fromUrl || saved || (/^(uk|ru)/i.test(navigator.language || '') ? 'uk' : 'en');
+      if (fromUrl) localStorage.setItem('wsp-lang', fromUrl);
+      document.documentElement.className = 'lang-' + lang;
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #4f7ef8;
+      --text: #e4e6f0;
+      --text-muted: #8890b0;
+      --sidebar-w: 220px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    body { background: var(--bg); }
+
+    html.lang-en [lang="uk"] { display: none; }
+    html.lang-uk [lang="en"] { display: none; }
+
+    .shell { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 0 20px 24px;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    .sidebar-logo span { color: var(--accent); }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      padding: 12px 20px 6px;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 8px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      font-size: 13px;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,126,248,0.08); }
+
+    .lang-switcher {
+      margin-top: auto;
+      padding: 16px 20px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .lang-switcher button {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-switcher button:hover { color: var(--text); border-color: var(--accent); }
+    .lang-switcher button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 64px 40px 48px;
+      max-width: 860px;
+    }
+
+    /* ── Hero ── */
+    .hero { margin-bottom: 52px; }
+
+    .hero-logo {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .hero-logo span { color: var(--accent); }
+
+    .hero-tagline {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 560px;
+    }
+
+    /* ── About ── */
+    .about { margin-bottom: 48px; display: flex; flex-direction: column; gap: 12px; }
+
+    .about p { line-height: 1.75; color: var(--text); }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Page links ── */
+    .page-links-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .page-links { display: flex; gap: 12px; }
+
+    .page-link {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+      min-width: 180px;
+    }
+    .page-link:hover { border-color: var(--accent); background: rgba(79,126,248,0.05); }
+
+    .page-link-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .page-link-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .page-footer {
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">Wot<span>Stream+</span></div>
+
+    <p class="nav-section-label"><span lang="en">Pages</span><span lang="uk">Сторінки</span></p>
+    <ul class="sidebar-nav">
+      <li><a href="index.html" class="active"><span lang="en">Overview</span><span lang="uk">Огляд</span></a></li>
+      <li><a href="manual.html"><span lang="en">User Manual</span><span lang="uk">Посібник</span></a></li>
+      <li><a href="releases.html"><span lang="en">Releases</span><span lang="uk">Релізи</span></a></li>
+      <li><a href="downloads.html"><span lang="en">Downloads</span><span lang="uk">Завантаження</span></a></li>
+    </ul>
+
+    <div class="lang-switcher">
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+      <button id="btn-uk" onclick="setLang('uk')">UK</button>
+    </div>
+  </nav>
+
+  <main class="content">
+
+    <div class="hero">
+      <div class="hero-logo">Wot<span>StreamPlus</span></div>
+      <p class="hero-tagline" lang="en">A streaming companion for World of Tanks. Track your battle performance and Onslaught rating live on stream — powered by real game data.</p>
+      <p class="hero-tagline" lang="uk">Стримінговий помічник для World of Tanks. Відстежуйте ефективність у боях та рейтинг Натиску в прямому ефірі — на основі реальних ігрових даних.</p>
+    </div>
+
+    <div class="about">
+      <p lang="en">WotStreamPlus runs alongside World of Tanks and reads your replay files as each battle ends. It calculates damage, assists, kills, credits, and session averages — then pushes that data to your stream overlay automatically, with no copy-paste and no manual refresh.</p>
+      <p lang="uk">WotStreamPlus працює паралельно з World of Tanks і зчитує ваші реплеї щойно бій завершується. Програма обчислює шкоду, допомогу, знищення, кредити та середні значення сеансу — а потім автоматично передає ці дані на оверлей стриму без копіювання та ручного оновлення.</p>
+
+      <p lang="en">Overlays can be delivered directly to OBS Studio text and browser sources, or written to local HTML files that work in any streaming software.</p>
+      <p lang="uk">Оверлеї можуть передаватися безпосередньо до текстових джерел і джерел браузера OBS Studio або записуватися до локальних HTML-файлів, що працюють у будь-якому програмному забезпеченні для стримінгу.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3 lang="en">Battle Statistics</h3>
+          <h3 lang="uk">Бойова статистика</h3>
+          <p lang="en">Per-battle and session-wide damage, assists, kills, and credits. Configurable fields, squad mode, and a full battle history with delete support.</p>
+          <p lang="uk">Шкода, допомога, знищення та кредити за бій і за сеанс. Налаштовувані поля, режим взводу та повна історія боїв із підтримкою видалення.</p>
+        </div>
+        <div class="feature-card">
+          <h3 lang="en">Onslaught Tracker</h3>
+          <h3 lang="uk">Трекер Натиску</h3>
+          <p lang="en">Live rank, division, points, and boost status for competitive Onslaught mode. Last 5 battles shown with point deltas.</p>
+          <p lang="uk">Живий ранг, дивізіон, очки та статус прискорення для конкурентного режиму Натиск. Відображаються останні 5 боїв зі зміною очок.</p>
+        </div>
+        <div class="feature-card">
+          <h3 lang="en">OBS Integration</h3>
+          <h3 lang="uk">Інтеграція з OBS</h3>
+          <p lang="en">Connects to OBS Studio and pushes live data to text and browser sources automatically. Missing sources are created on first connect.</p>
+          <p lang="uk">Підключається до OBS Studio та автоматично передає живі дані до текстових джерел і джерел браузера. Відсутні джерела створюються при першому підключенні.</p>
+        </div>
+        <div class="feature-card">
+          <h3 lang="en">Ladder Mode</h3>
+          <h3 lang="uk">Режим драбини</h3>
+          <p lang="en">Run structured challenge ladders on stream. Define stairs with damage and kill goals, prizes, and retries. A live widget tracks and displays your progress automatically after every battle.</p>
+          <p lang="uk">Проводьте структуровані виклики-драбини у стримі. Налаштуйте сходинки з цілями шкоди та знищень, нагородами та спробами. Живий віджет автоматично відстежує та відображає ваш прогрес після кожного бою.</p>
+        </div>
+        <div class="feature-card">
+          <h3 lang="en">Subscription Plans</h3>
+          <h3 lang="uk">Плани підписки</h3>
+          <p lang="en">Feature access is controlled by your active plan. The app notifies you before expiry and provides a 60-minute grace period.</p>
+          <p lang="uk">Доступ до функцій контролюється вашим активним планом. Програма сповіщає вас до закінчення строку та надає 60-хвилинний пільговий період.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="page-links-label"><span lang="en">Documentation</span><span lang="uk">Документація</span></p>
+    <div class="page-links">
+      <a href="manual.html" class="page-link">
+        <span class="page-link-title" lang="en">User Manual</span>
+        <span class="page-link-title" lang="uk">Посібник користувача</span>
+        <span class="page-link-desc" lang="en">Setup guide and detailed instructions for every feature.</span>
+        <span class="page-link-desc" lang="uk">Посібник із налаштування та детальні інструкції для кожної функції.</span>
+      </a>
+      <a href="releases.html" class="page-link">
+        <span class="page-link-title" lang="en">Releases</span>
+        <span class="page-link-title" lang="uk">Релізи</span>
+        <span class="page-link-desc" lang="en">Changelog and version history.</span>
+        <span class="page-link-desc" lang="uk">Журнал змін та історія версій.</span>
+      </a>
+    </div>
+
+    <footer class="page-footer">
+      &copy; 2026 Symstriker. <span lang="en">All rights reserved.</span><span lang="uk">Усі права захищені.</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.className = 'lang-' + lang;
+    localStorage.setItem('wsp-lang', lang);
+    var url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-uk').classList.toggle('active', lang === 'uk');
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:') || a.hasAttribute('download')) return;
+    e.preventDefault();
+    var lang = (document.documentElement.className.match(/lang-(\w+)/) || [])[1];
+    var url = new URL(href, window.location.href);
+    if (lang) url.searchParams.set('lang', lang);
+    window.location.href = url.toString();
+  });
+
+  (function () {
+    var lang = /lang-(\w+)/.exec(document.documentElement.className);
+    if (lang) setLang(lang[1]);
+  })();
+</script>
+</body>
+</html>

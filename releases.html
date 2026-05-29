@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Releases — WotStreamPlus</title>
+  <script>
+    (function () {
+      var p = new URLSearchParams(window.location.search);
+      var fromUrl = p.get('lang');
+      var saved = localStorage.getItem('wsp-lang');
+      var lang = fromUrl || saved || (/^(uk|ru)/i.test(navigator.language || '') ? 'uk' : 'en');
+      if (fromUrl) localStorage.setItem('wsp-lang', fromUrl);
+      document.documentElement.className = 'lang-' + lang;
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #4f7ef8;
+      --text: #e4e6f0;
+      --text-muted: #8890b0;
+      --sidebar-w: 220px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    body { background: var(--bg); }
+
+    /* ── i18n ── */
+    html.lang-en [lang="uk"] { display: none; }
+    html.lang-uk [lang="en"] { display: none; }
+
+    /* ── Layout ── */
+    .shell { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 0 20px 24px;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    .sidebar-logo span { color: var(--accent); }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      padding: 12px 20px 6px;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 8px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      font-size: 13px;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,126,248,0.08); }
+
+    .lang-switcher {
+      margin-top: auto;
+      padding: 16px 20px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .lang-switcher button {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-switcher button:hover { color: var(--text); border-color: var(--accent); }
+    .lang-switcher button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 48px 40px;
+      max-width: 860px;
+    }
+
+    .page-header { margin-bottom: 36px; }
+    .page-header h1 { font-size: 26px; font-weight: 700; }
+    .page-header p { margin-top: 6px; color: var(--text-muted); font-size: 13px; }
+
+    /* ── Release card ── */
+    .release-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .release-header {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    .release-version { font-size: 20px; font-weight: 700; color: var(--accent); }
+    .release-date { font-size: 13px; color: var(--text-muted); }
+
+    .release-section { display: flex; flex-direction: column; gap: 10px; }
+
+    .release-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+    }
+
+    .release-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .release-list li { padding-left: 14px; position: relative; line-height: 1.6; }
+    .release-list li::before { content: '–'; position: absolute; left: 0; color: var(--text-muted); }
+
+    .page-footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">Wot<span>Stream+</span></div>
+
+    <p class="nav-section-label"><span lang="en">Pages</span><span lang="uk">Сторінки</span></p>
+    <ul class="sidebar-nav">
+      <li><a href="index.html"><span lang="en">Overview</span><span lang="uk">Огляд</span></a></li>
+      <li><a href="manual.html"><span lang="en">User Manual</span><span lang="uk">Посібник</span></a></li>
+      <li><a href="releases.html" class="active"><span lang="en">Releases</span><span lang="uk">Релізи</span></a></li>
+      <li><a href="downloads.html"><span lang="en">Downloads</span><span lang="uk">Завантаження</span></a></li>
+    </ul>
+
+    <div class="lang-switcher">
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+      <button id="btn-uk" onclick="setLang('uk')">UK</button>
+    </div>
+  </nav>
+
+  <main class="content">
+
+    <div class="page-header">
+      <h1><span lang="en">Releases</span><span lang="uk">Релізи</span></h1>
+      <p>
+        <span lang="en">Public changelog for WotStreamPlus — the streaming companion app for World of Tanks.</span>
+        <span lang="uk">Публічний журнал змін WotStreamPlus — стримінгового помічника для World of Tanks.</span>
+      </p>
+    </div>
+
+    <!-- v1.0.1 -->
+    <div class="release-card" id="v1.0.1">
+      <div class="release-header">
+        <span class="release-version">v1.0.1</span>
+        <span class="release-date">2026-05-29</span>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">Ladder Mode</span><span lang="uk">Режим драбини</span></h2>
+        <ul class="release-list">
+          <li lang="en">New Ladder tab for running structured challenge ladders on stream. Define a series of stairs, each with a damage goal, an optional kill goal, an optional prize, and a retry count.</li>
+          <li lang="uk">Нова вкладка Драбина для проведення структурованих викликів під час стримів. Налаштуйте серію сходинок, кожна з яких має ціль шкоди, необов'язкову ціль знищень, необов'язкову нагороду та кількість спроб.</li>
+          <li lang="en">After each battle the app automatically checks your result against the current stair's goals. Meet both goals to advance to the next stair; exhaust your retries to drop back one stair.</li>
+          <li lang="uk">Після кожного бою програма автоматично перевіряє результат відповідно до цілей поточної сходинки. Виконайте обидві цілі, щоб просунутися до наступної сходинки; вичерпайте спроби, щоб повернутися на одну сходинку назад.</li>
+          <li lang="en">Leave the retries field blank for unlimited retries on a stair. Enter 999 to mark it as a floor stair — once you reach it you can never drop below it, and a lock icon appears on the widget.</li>
+          <li lang="uk">Залиште поле спроб порожнім для необмеженої кількості спроб. Введіть 999, щоб зробити сходинку нижньою межею — досягнувши її, ви більше не зможете впасти нижче, і на віджеті з'явиться значок замка.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">Ladder Widget</span><span lang="uk">Віджет драбини</span></h2>
+        <ul class="release-list">
+          <li lang="en">Live HTML overlay widget showing all stairs stacked bottom to top. Refreshes automatically after every battle — add it as a browser source in any streaming software.</li>
+          <li lang="uk">Живий HTML-оверлей, що показує всі сходинки знизу догори. Оновлюється автоматично після кожного бою — додайте його як джерело браузера в будь-якому програмному забезпеченні для стримінгу.</li>
+          <li lang="en">Current stair is highlighted and displayed slightly wider than the rest, making it immediately visible on stream.</li>
+          <li lang="uk">Поточна сходинка виділяється та відображається трохи ширше за решту, що одразу помітно на стримі.</li>
+          <li lang="en">Each stair shows its damage goal, kill goal, prize (when set), and retry count in a single line. Passed stairs are marked with a check mark.</li>
+          <li lang="uk">Кожна сходинка показує ціль шкоди, ціль знищень, нагороду (якщо встановлена) та кількість спроб в одному рядку. Пройдені сходинки позначаються галочкою.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- v1.0.0.0 -->
+    <div class="release-card" id="v1.0.0.0">
+      <div class="release-header">
+        <span class="release-version">v1.0.0.0</span>
+        <span class="release-date">2026-05-13</span>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">Battle Statistics Tracker</span><span lang="uk">Трекер бойової статистики</span></h2>
+        <ul class="release-list">
+          <li lang="en">Monitors World of Tanks replay files in real time and calculates per-battle and session-wide metrics: damage dealt, assisted damage (radio, track, stun), kills, credits earned (gross and net of shell costs), win count, and battle count.</li>
+          <li lang="uk">Відстежує реплеї World of Tanks у реальному часі та обчислює показники за бій і за сеанс: завдана шкода, шкода допомогою (засвітка, гусениця, приголомшення), знищення, зароблені кредити (валові та чисті після витрат на снаряди), кількість перемог і боїв.</li>
+          <li lang="en">Session averages (damage, kills) update automatically after every battle.</li>
+          <li lang="uk">Середні значення сеансу (шкода, знищення) оновлюються автоматично після кожного бою.</li>
+          <li lang="en">Squad mode: tracks individual squad member statistics separately and displays per-player metrics on the overlay.</li>
+          <li lang="uk">Режим взводу: відстежує статистику кожного члена взводу окремо та відображає показники кожного гравця на оверлеї.</li>
+          <li lang="en">Configurable fields — show, hide, or reorder any statistic column to match your stream layout.</li>
+          <li lang="uk">Налаштовувані поля — показуйте, приховуйте або змінюйте порядок будь-якого стовпця статистики відповідно до макета стриму.</li>
+          <li lang="en">Optional victory and kill bonus multipliers allow custom point-scoring systems on top of raw stats.</li>
+          <li lang="uk">Необов'язкові бонусні множники за перемоги та знищення дозволяють використовувати власні системи нарахування очок поверх сирої статистики.</li>
+          <li lang="en">Pause and resume tracking mid-session. Pausing preserves battle history; resuming inserts a visible time marker in the battle log.</li>
+          <li lang="uk">Пауза та продовження відстеження під час сеансу. Пауза зберігає історію боїв; продовження вставляє видиму часову мітку в журнал боїв.</li>
+          <li lang="en">Battle history view: browse all recorded battles in the session with battle number, date and time, map, tank, and damage.</li>
+          <li lang="uk">Перегляд історії боїв: усі записані бої в сеансі з номером бою, датою та часом, картою, машиною та шкодою.</li>
+          <li lang="en">Delete individual battles from the session — all session totals and averages recalculate automatically.</li>
+          <li lang="uk">Видалення окремих боїв із сеансу — усі підсумки та середні значення сеансу перераховуються автоматично.</li>
+          <li lang="en">Optional grid layout for a more compact stats display on the overlay.</li>
+          <li lang="uk">Необов'язковий сітчастий макет для більш компактного відображення статистики на оверлеї.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">Onslaught Rating Tracker</span><span lang="uk">Трекер рейтингу Натиску</span></h2>
+        <ul class="release-list">
+          <li lang="en">Tracks competitive Onslaught battles and displays current rank, division, points, and session boost status in real time.</li>
+          <li lang="uk">Відстежує конкурентні бої Натиску та відображає поточний ранг, дивізіон, очки та статус прискорення сеансу в реальному часі.</li>
+          <li lang="en">Qualification phase indicator shown when the player is actively working toward the next rank.</li>
+          <li lang="uk">Індикатор кваліфікаційної фази відображається, коли гравець активно просувається до наступного рангу.</li>
+          <li lang="en">Battle history panel shows the last 5 Onslaught battles with map name, point delta, and resulting rank and division.</li>
+          <li lang="uk">Панель історії боїв показує останні 5 боїв Натиску з назвою карти, зміною очок та отриманим рангом і дивізіоном.</li>
+          <li lang="en">Rank icons are displayed on the overlay and kept up to date with the game.</li>
+          <li lang="uk">Значки рангу відображаються на оверлеї та автоматично оновлюються разом із грою.</li>
+          <li lang="en">Last known rating and point total are saved to disk and restored on next app launch so the tracker picks up where it left off.</li>
+          <li lang="uk">Останній відомий рейтинг та загальна кількість очок зберігаються на диску та відновлюються при наступному запуску програми.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">OBS Studio Integration</span><span lang="uk">Інтеграція з OBS Studio</span></h2>
+        <ul class="release-list">
+          <li lang="en">Connects to OBS Studio. Password-protected connections are supported.</li>
+          <li lang="uk">Підключається до OBS Studio. Підтримуються захищені паролем з'єднання.</li>
+          <li lang="en">Optional auto-connect on app startup.</li>
+          <li lang="uk">Необов'язкове авто-підключення при запуску програми.</li>
+          <li lang="en">Statistics and Onslaught data are pushed to named OBS text sources in real time. Missing sources are created automatically.</li>
+          <li lang="uk">Дані статистики та Натиску передаються до іменованих текстових джерел OBS у реальному часі. Відсутні джерела створюються автоматично.</li>
+          <li lang="en">Browser sources receive live data automatically, allowing rich HTML overlay designs.</li>
+          <li lang="uk">Джерела браузера отримують живі дані автоматично, дозволяючи створювати складні HTML-дизайни оверлея.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">HTML Widget Output</span><span lang="uk">Виведення HTML-віджетів</span></h2>
+        <ul class="release-list">
+          <li lang="en">Both the Statistics tracker and the Onslaught tracker can write live data to local HTML files instead of, or in addition to, OBS text sources.</li>
+          <li lang="uk">Трекер статистики та трекер Натиску можуть записувати живі дані до локальних HTML-файлів замість текстових джерел OBS або на додаток до них.</li>
+          <li lang="en">The generated files can be loaded as a browser source in any streaming software, making the overlays software-agnostic.</li>
+          <li lang="uk">Згенеровані файли можна завантажити як джерело браузера в будь-якому програмному забезпеченні для стримінгу, роблячи оверлеї незалежними від конкретної програми.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">World of Tanks Integration</span><span lang="uk">Інтеграція з World of Tanks</span></h2>
+        <ul class="release-list">
+          <li lang="en">WoT account login via Wargaming. EU, NA, ASIA, and RU realms are all supported.</li>
+          <li lang="uk">Вхід до облікового запису WoT через Wargaming. Підтримуються всі регіони: EU, NA, ASIA та RU.</li>
+          <li lang="en">Automatic WoT mod deployment: when the app detects a game version change it updates the battle stats mod without any manual steps.</li>
+          <li lang="uk">Автоматичне розгортання мода WoT: коли програма виявляє зміну версії гри, вона оновлює мод статистики боїв без жодних ручних дій.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">Subscription &amp; Feature Gating</span><span lang="uk">Підписка та доступ до функцій</span></h2>
+        <ul class="release-list">
+          <li lang="en">The Statistics and Onslaught tabs are shown or hidden based on the active subscription plan.</li>
+          <li lang="uk">Вкладки Статистика та Натиск відображаються або приховуються залежно від активного плану підписки.</li>
+          <li lang="en">Subscription expiry notifications with a configurable reminder interval (1–8 hours).</li>
+          <li lang="uk">Сповіщення про закінчення підписки з налаштовуваним інтервалом нагадувань (1–8 годин).</li>
+          <li lang="en">60-minute grace period after expiry with notifications at 1 hour remaining and at the start of the grace period.</li>
+          <li lang="uk">60-хвилинний пільговий період після закінчення з сповіщеннями за 1 годину до закінчення та на початку пільгового періоду.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">Settings &amp; Configuration</span><span lang="uk">Налаштування та конфігурація</span></h2>
+        <ul class="release-list">
+          <li lang="en">WoT installation path can be browsed and configured; the detected game version is displayed in the settings tab.</li>
+          <li lang="uk">Шлях до встановлення WoT можна переглянути та налаштувати; виявлена версія гри відображається у вкладці налаштувань.</li>
+          <li lang="en">OBS connection settings (host, port, password) with live connection status feedback.</li>
+          <li lang="uk">Налаштування підключення до OBS (хост, порт, пароль) з живим відображенням статусу з'єднання.</li>
+          <li lang="en">Minimize to system tray — the app continues running in the background and can be restored from the tray icon.</li>
+          <li lang="uk">Згортання у системний лоток — програма продовжує працювати у фоновому режимі та може бути відновлена через значок у лотку.</li>
+          <li lang="en">All settings are saved locally and restored automatically on next launch.</li>
+          <li lang="uk">Усі налаштування зберігаються локально та автоматично відновлюються при наступному запуску.</li>
+        </ul>
+      </div>
+
+      <div class="release-section">
+        <h2 class="release-section-title"><span lang="en">Localization</span><span lang="uk">Локалізація</span></h2>
+        <ul class="release-list">
+          <li lang="en">Full English and Ukrainian (Українська) language support across all UI surfaces: tabs, buttons, status messages, help text, and subscription expiry notifications.</li>
+          <li lang="uk">Повна підтримка англійської та української мов у всіх елементах інтерфейсу: вкладках, кнопках, повідомленнях про стан, довідковому тексті та сповіщеннях про закінчення підписки.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <footer class="page-footer">
+      &copy; 2026 Symstriker. <span lang="en">All rights reserved.</span><span lang="uk">Усі права захищені.</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.className = 'lang-' + lang;
+    localStorage.setItem('wsp-lang', lang);
+    var url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-uk').classList.toggle('active', lang === 'uk');
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:') || a.hasAttribute('download')) return;
+    e.preventDefault();
+    var lang = (document.documentElement.className.match(/lang-(\w+)/) || [])[1];
+    var url = new URL(href, window.location.href);
+    if (lang) url.searchParams.set('lang', lang);
+    window.location.href = url.toString();
+  });
+
+  (function () {
+    var lang = /lang-(\w+)/.exec(document.documentElement.className);
+    if (lang) setLang(lang[1]);
+  })();
+</script>
+</body>
+</html>

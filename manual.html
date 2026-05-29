@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Manual — WotStreamPlus</title>
+  <script>
+    (function () {
+      var p = new URLSearchParams(window.location.search);
+      var fromUrl = p.get('lang');
+      var saved = localStorage.getItem('wsp-lang');
+      var lang = fromUrl || saved || (/^(uk|ru)/i.test(navigator.language || '') ? 'uk' : 'en');
+      if (fromUrl) localStorage.setItem('wsp-lang', fromUrl);
+      document.documentElement.className = 'lang-' + lang;
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #4f7ef8;
+      --text: #e4e6f0;
+      --text-muted: #8890b0;
+      --sidebar-w: 220px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); }
+
+    /* ── i18n ── */
+    html.lang-en [lang="uk"] { display: none; }
+    html.lang-uk [lang="en"] { display: none; }
+
+    /* ── Layout ── */
+    .shell { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 0 20px 24px;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    .sidebar-logo span { color: var(--accent); }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      padding: 12px 20px 6px;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 8px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      font-size: 13px;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,126,248,0.08); }
+    .sidebar-nav.sections a { padding: 6px 20px 6px 28px; font-size: 12px; }
+
+    .lang-switcher {
+      margin-top: auto;
+      padding: 16px 20px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .lang-switcher button {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-switcher button:hover { color: var(--text); border-color: var(--accent); }
+    .lang-switcher button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 48px 40px;
+      max-width: 860px;
+    }
+
+    .page-header { margin-bottom: 40px; }
+    .page-header h1 { font-size: 26px; font-weight: 700; }
+    .page-header p { margin-top: 6px; color: var(--text-muted); font-size: 13px; }
+
+    /* ── Manual sections ── */
+    .manual-section { margin-bottom: 52px; scroll-margin-top: 32px; }
+
+    .manual-section h2 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .manual-section h3 { font-size: 14px; font-weight: 600; color: var(--accent); margin: 24px 0 10px; }
+
+    .manual-section p { line-height: 1.7; margin-bottom: 12px; }
+
+    .manual-section ul, .manual-section ol {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    .manual-section li { line-height: 1.65; }
+    .manual-section ol { list-style: decimal; }
+    .manual-section ul { list-style: disc; }
+    .manual-section ul li::marker { color: var(--text-muted); }
+    .manual-section ol li::marker { color: var(--text-muted); font-size: 13px; }
+
+    .tip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .tip strong { color: var(--text); }
+
+    .page-footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">Wot<span>Stream+</span></div>
+
+    <p class="nav-section-label"><span lang="en">Pages</span><span lang="uk">Сторінки</span></p>
+    <ul class="sidebar-nav">
+      <li><a href="index.html"><span lang="en">Overview</span><span lang="uk">Огляд</span></a></li>
+      <li><a href="manual.html" class="active"><span lang="en">User Manual</span><span lang="uk">Посібник</span></a></li>
+      <li><a href="releases.html"><span lang="en">Releases</span><span lang="uk">Релізи</span></a></li>
+      <li><a href="downloads.html"><span lang="en">Downloads</span><span lang="uk">Завантаження</span></a></li>
+    </ul>
+
+    <p class="nav-section-label"><span lang="en">Sections</span><span lang="uk">Розділи</span></p>
+    <ul class="sidebar-nav sections">
+      <li><a href="#getting-started"><span lang="en">Getting Started</span><span lang="uk">Початок роботи</span></a></li>
+      <li><a href="#battle-statistics"><span lang="en">Battle Statistics</span><span lang="uk">Бойова статистика</span></a></li>
+      <li><a href="#onslaught-tracker"><span lang="en">Onslaught Tracker</span><span lang="uk">Трекер Натиску</span></a></li>
+      <li><a href="#obs-integration"><span lang="en">OBS Integration</span><span lang="uk">Інтеграція OBS</span></a></li>
+      <li><a href="#html-widgets"><span lang="en">HTML Widgets</span><span lang="uk">HTML-віджети</span></a></li>
+      <li><a href="#ladder-mode"><span lang="en">Ladder Mode</span><span lang="uk">Режим драбини</span></a></li>
+      <li><a href="#subscription"><span lang="en">Subscription</span><span lang="uk">Підписка</span></a></li>
+      <li><a href="#settings"><span lang="en">Settings</span><span lang="uk">Налаштування</span></a></li>
+    </ul>
+
+    <div class="lang-switcher">
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+      <button id="btn-uk" onclick="setLang('uk')">UK</button>
+    </div>
+  </nav>
+
+  <main class="content">
+
+    <div class="page-header">
+      <h1><span lang="en">User Manual</span><span lang="uk">Посібник користувача</span></h1>
+      <p>
+        <span lang="en">A complete guide to setting up and using WotStreamPlus.</span>
+        <span lang="uk">Повний посібник із налаштування та використання WotStreamPlus.</span>
+      </p>
+    </div>
+
+    <!-- Getting Started -->
+    <section class="manual-section" id="getting-started">
+      <h2><span lang="en">Getting Started</span><span lang="uk">Початок роботи</span></h2>
+
+      <p lang="en">WotStreamPlus is a streaming companion for World of Tanks. It reads your battle results in real time and pushes live overlay data to OBS Studio or generates standalone HTML widgets for any streaming software.</p>
+      <p lang="uk">WotStreamPlus — стримінговий помічник для World of Tanks. Програма зчитує результати боїв у реальному часі та передає живі дані оверлея до OBS Studio або генерує автономні HTML-віджети для будь-якого програмного забезпечення для стримінгу.</p>
+
+      <h3><span lang="en">First Launch</span><span lang="uk">Перший запуск</span></h3>
+
+      <p lang="en">On first run, two things must be configured before tracking can begin:</p>
+      <p lang="uk">Під час першого запуску необхідно налаштувати дві речі, перш ніж почнеться відстеження:</p>
+
+      <ol>
+        <li lang="en"><strong>World of Tanks installation path</strong> — open the Settings tab and click Browse to point the app at your WoT game folder. The app uses this folder to read replays and to keep the required game mod up to date.</li>
+        <li lang="uk"><strong>Шлях до World of Tanks</strong> — відкрийте вкладку Налаштування та натисніть Огляд, щоб вказати програмі папку гри WoT. Програма використовує цю папку для зчитування реплеїв та оновлення необхідного мода гри.</li>
+        <li lang="en"><strong>Wargaming account login</strong> — click Sign in with Wargaming. A browser window opens with the Wargaming login page. Select your realm (EU, NA, ASIA, or RU) and complete the sign-in. Your subscription is tied to your Wargaming account.</li>
+        <li lang="uk"><strong>Вхід до облікового запису Wargaming</strong> — натисніть Увійти через Wargaming. Відкриється вікно браузера зі сторінкою входу Wargaming. Оберіть свій регіон (EU, NA, ASIA або RU) і завершіть вхід. Ваша підписка прив'язана до вашого облікового запису Wargaming.</li>
+      </ol>
+
+      <h3><span lang="en">What You See After Login</span><span lang="uk">Що видно після входу</span></h3>
+
+      <p lang="en">The tabs shown in the app depend on your active subscription plan. You may see a Statistics tab, an Onslaught tab, or both. The Settings and About tabs are always visible regardless of plan.</p>
+      <p lang="uk">Вкладки, що відображаються в програмі, залежать від вашого активного плану підписки. Може бути доступна вкладка Статистика, вкладка Натиск або обидві. Вкладки Налаштування та Про програму завжди видимі незалежно від плану.</p>
+
+      <div class="tip" lang="en"><strong>Note:</strong> Connecting to OBS is optional. If you only want to use HTML widget files as browser sources you do not need to configure the OBS connection at all.</div>
+      <div class="tip" lang="uk"><strong>Примітка:</strong> Підключення до OBS є необов'язковим. Якщо ви хочете використовувати лише HTML-файли віджетів як джерела браузера, налаштовувати підключення до OBS не потрібно.</div>
+    </section>
+
+    <!-- Battle Statistics -->
+    <section class="manual-section" id="battle-statistics">
+      <h2><span lang="en">Battle Statistics Tracker</span><span lang="uk">Трекер бойової статистики</span></h2>
+
+      <p lang="en">The Statistics tab tracks your performance across battles in a single streaming session and displays the results on your overlay in real time.</p>
+      <p lang="uk">Вкладка Статистика відстежує вашу ефективність у боях протягом одного стримінгового сеансу та відображає результати на оверлеї в реальному часі.</p>
+
+      <h3><span lang="en">Starting a Session</span><span lang="uk">Початок сеансу</span></h3>
+
+      <p lang="en">Click <strong>Start</strong> in the Statistics tab. The app begins monitoring your most recent replay files. Play a battle in World of Tanks — once the battle ends the results appear on the overlay automatically. No manual steps are required between battles.</p>
+      <p lang="uk">Натисніть <strong>Старт</strong> у вкладці Статистика. Програма починає відстежувати ваші останні реплеї. Зіграйте бій у World of Tanks — щойно бій завершиться, результати автоматично з'являться на оверлеї. Жодних ручних дій між боями не потрібно.</p>
+
+      <h3><span lang="en">What Is Tracked</span><span lang="uk">Що відстежується</span></h3>
+
+      <p lang="en">For each battle the app records:</p>
+      <p lang="uk">Для кожного бою програма записує:</p>
+
+      <ul>
+        <li lang="en"><strong>Damage dealt</strong> — direct damage to enemy vehicles</li>
+        <li lang="uk"><strong>Завдана шкода</strong> — пряма шкода ворожим машинам</li>
+        <li lang="en"><strong>Assisted damage</strong> — radio (spotting), track, and stun assists combined</li>
+        <li lang="uk"><strong>Шкода допомогою</strong> — засвітка, гусениця та приголомшення разом</li>
+        <li lang="en"><strong>Kills</strong> — number of enemy vehicles destroyed</li>
+        <li lang="uk"><strong>Знищення</strong> — кількість знищених ворожих машин</li>
+        <li lang="en"><strong>Credits earned</strong> — gross credits and net credits after shell costs</li>
+        <li lang="uk"><strong>Зароблені кредити</strong> — валові кредити та чисті кредити після витрат на снаряди</li>
+        <li lang="en"><strong>Result</strong> — win or loss</li>
+        <li lang="uk"><strong>Результат</strong> — перемога або поразка</li>
+      </ul>
+
+      <p lang="en">The overlay also shows running session totals and averages for damage and kills that update after every battle.</p>
+      <p lang="uk">Оверлей також показує поточні підсумки сеансу та середні значення шкоди й знищень, що оновлюються після кожного бою.</p>
+
+      <h3><span lang="en">Configuring Fields</span><span lang="uk">Налаштування полів</span></h3>
+
+      <p lang="en">Open the field configuration panel to choose which statistics appear on your overlay. Any field can be hidden, and you can drag fields into the order that suits your stream layout best.</p>
+      <p lang="uk">Відкрийте панель налаштування полів, щоб вибрати, яка статистика відображається на оверлеї. Будь-яке поле можна приховати, а поля можна перетягувати у зручний для вашого стриму порядок.</p>
+
+      <h3><span lang="en">Squad Mode</span><span lang="uk">Режим взводу</span></h3>
+
+      <p lang="en">Enable <strong>Squad mode</strong> to break the overlay down by squad member rather than showing only session totals. Each player in your squad gets their own row with individual damage, kills, and other tracked metrics.</p>
+      <p lang="uk">Увімкніть <strong>режим взводу</strong>, щоб розбити оверлей за членами взводу замість відображення лише підсумків сеансу. Кожен гравець у вашому взводі отримує окремий рядок з індивідуальними показниками шкоди, знищень та іншою статистикою.</p>
+
+      <h3><span lang="en">Victory and Kill Bonuses</span><span lang="uk">Бонуси за перемоги та знищення</span></h3>
+
+      <p lang="en">If you run a custom points system on stream you can assign a bonus multiplier to wins and to kills. The bonus is added on top of the raw damage value in the session total, letting you display a custom score rather than plain damage numbers.</p>
+      <p lang="uk">Якщо ви використовуєте власну систему очок у стримі, ви можете призначити бонусний множник за перемоги та знищення. Бонус додається до значення шкоди в підсумку сеансу, дозволяючи відображати власний рахунок замість простих цифр шкоди.</p>
+
+      <h3><span lang="en">Pausing and Resuming</span><span lang="uk">Пауза та продовження</span></h3>
+
+      <p lang="en">Click <strong>Pause</strong> to stop recording new battles without losing the current session history. A time marker is inserted in the battle log at the point you paused — useful for marking stream breaks. Click <strong>Resume</strong> to continue tracking from where you left off.</p>
+      <p lang="uk">Натисніть <strong>Пауза</strong>, щоб зупинити запис нових боїв, не втрачаючи поточну історію сеансу. У журнал боїв вставляється часова мітка в точці паузи — зручно для позначення перерв у стримі. Натисніть <strong>Продовжити</strong>, щоб відновити відстеження з того місця, де зупинилися.</p>
+
+      <h3><span lang="en">Battle History</span><span lang="uk">Історія боїв</span></h3>
+
+      <p lang="en">The battle history panel lists every battle recorded in the session:</p>
+      <p lang="uk">Панель історії боїв показує кожен бій, записаний у сеансі:</p>
+
+      <ul>
+        <li lang="en">Battle number and date/time</li>
+        <li lang="uk">Номер бою та дата/час</li>
+        <li lang="en">Map name</li>
+        <li lang="uk">Назва карти</li>
+        <li lang="en">Tank used</li>
+        <li lang="uk">Використана машина</li>
+        <li lang="en">Damage dealt</li>
+        <li lang="uk">Завдана шкода</li>
+      </ul>
+
+      <p lang="en">To remove a battle click the delete button next to it. Session totals and averages recalculate instantly.</p>
+      <p lang="uk">Щоб видалити бій, натисніть кнопку видалення поруч із ним. Підсумки та середні значення сеансу миттєво перераховуються.</p>
+
+      <h3><span lang="en">Grid Layout</span><span lang="uk">Сітчастий макет</span></h3>
+
+      <p lang="en">Toggle <strong>Grid layout</strong> to switch the overlay to a compact, column-based display. This is useful when screen space is limited or when you want a more structured look on your stream.</p>
+      <p lang="uk">Увімкніть <strong>Сітчастий макет</strong>, щоб перемкнути оверлей на компактне відображення у вигляді стовпців. Це корисно, коли місця на екрані мало або ви хочете більш структурованого вигляду на стримі.</p>
+    </section>
+
+    <!-- Onslaught Tracker -->
+    <section class="manual-section" id="onslaught-tracker">
+      <h2><span lang="en">Onslaught Rating Tracker</span><span lang="uk">Трекер рейтингу Натиску</span></h2>
+
+      <p lang="en">The Onslaught tab tracks your competitive Onslaught mode rating and displays it as a live overlay throughout your streaming session.</p>
+      <p lang="uk">Вкладка Натиск відстежує ваш рейтинг у конкурентному режимі Натиск та відображає його на живому оверлеї протягом усього стримінгового сеансу.</p>
+
+      <h3><span lang="en">What Is Displayed</span><span lang="uk">Що відображається</span></h3>
+
+      <p lang="en">The overlay shows:</p>
+      <p lang="uk">Оверлей показує:</p>
+
+      <ul>
+        <li lang="en"><strong>Current rank and division</strong></li>
+        <li lang="uk"><strong>Поточний ранг та дивізіон</strong></li>
+        <li lang="en"><strong>Rating points</strong></li>
+        <li lang="uk"><strong>Рейтингові очки</strong></li>
+        <li lang="en"><strong>Session boost status</strong> — whether a boost is currently active</li>
+        <li lang="uk"><strong>Статус прискорення сеансу</strong> — чи активне прискорення наразі</li>
+        <li lang="en"><strong>Qualification indicator</strong> — shown when you are in a qualification phase working toward the next rank</li>
+        <li lang="uk"><strong>Індикатор кваліфікації</strong> — відображається, коли ви перебуваєте у кваліфікаційній фазі на шляху до наступного рангу</li>
+      </ul>
+
+      <h3><span lang="en">Battle History</span><span lang="uk">Історія боїв</span></h3>
+
+      <p lang="en">The last 5 Onslaught battles are shown below the rating display. Each row includes the map name, the point change from that battle (positive or negative), and the rank and division you reached after the battle.</p>
+      <p lang="uk">Нижче під відображенням рейтингу показані останні 5 боїв Натиску. Кожен рядок містить назву карти, зміну очок у цьому бою (позитивну або негативну) та ранг і дивізіон, досягнуті після бою.</p>
+
+      <h3><span lang="en">Persistence Between Sessions</span><span lang="uk">Збереження між сеансами</span></h3>
+
+      <p lang="en">Your last known rating and point total are saved when you close the app. On the next launch the tracker restores that baseline, so it always starts from the correct point rather than waiting for the next battle to establish context.</p>
+      <p lang="uk">Ваш останній відомий рейтинг та загальна кількість очок зберігаються при закритті програми. При наступному запуску трекер відновлює цю базову точку, тому завжди починається з правильного значення, не чекаючи наступного бою.</p>
+
+      <h3><span lang="en">Rank Icons</span><span lang="uk">Значки рангу</span></h3>
+
+      <p lang="en">Rank icons are displayed on the overlay alongside your current rank. They are kept up to date automatically whenever the game updates.</p>
+      <p lang="uk">Значки рангу відображаються на оверлеї поряд із вашим поточним рангом. Вони автоматично оновлюються при кожному оновленні гри.</p>
+    </section>
+
+    <!-- OBS Integration -->
+    <section class="manual-section" id="obs-integration">
+      <h2><span lang="en">OBS Studio Integration</span><span lang="uk">Інтеграція з OBS Studio</span></h2>
+
+      <p lang="en">WotStreamPlus can push live data directly into your OBS scene so your overlay updates automatically without any browser refreshes or manual copy-paste.</p>
+      <p lang="uk">WotStreamPlus може передавати живі дані безпосередньо до вашої сцени OBS, тому оверлей оновлюється автоматично без жодного оновлення браузера або ручного копіювання.</p>
+
+      <h3><span lang="en">Prerequisites</span><span lang="uk">Передумови</span></h3>
+
+      <p lang="en">Before connecting, enable the WebSocket server inside OBS:</p>
+      <p lang="uk">Перед підключенням увімкніть WebSocket-сервер в OBS:</p>
+
+      <ol>
+        <li lang="en">In OBS, open <strong>Tools → WebSocket Server Settings</strong>.</li>
+        <li lang="uk">В OBS відкрийте <strong>Інструменти → Налаштування WebSocket-сервера</strong>.</li>
+        <li lang="en">Enable the server and note the port number (default is 4455).</li>
+        <li lang="uk">Увімкніть сервер та запишіть номер порту (за замовчуванням 4455).</li>
+        <li lang="en">Optionally set a password to protect the connection.</li>
+        <li lang="uk">За бажанням встановіть пароль для захисту з'єднання.</li>
+        <li lang="en">Click OK.</li>
+        <li lang="uk">Натисніть ОК.</li>
+      </ol>
+
+      <h3><span lang="en">Connecting from WotStreamPlus</span><span lang="uk">Підключення з WotStreamPlus</span></h3>
+
+      <ol>
+        <li lang="en">Open the <strong>Settings</strong> tab in WotStreamPlus.</li>
+        <li lang="uk">Відкрийте вкладку <strong>Налаштування</strong> у WotStreamPlus.</li>
+        <li lang="en">Enter the OBS host (usually <code>localhost</code>), port, and password.</li>
+        <li lang="uk">Введіть хост OBS (зазвичай <code>localhost</code>), порт та пароль.</li>
+        <li lang="en">Click <strong>Connect</strong>. The connection status updates next to the button.</li>
+        <li lang="uk">Натисніть <strong>Підключити</strong>. Статус з'єднання оновлюється поруч із кнопкою.</li>
+      </ol>
+
+      <div class="tip" lang="en"><strong>Auto-connect:</strong> Enable the auto-connect option in Settings if you want WotStreamPlus to connect to OBS automatically every time the app starts, without having to click Connect manually.</div>
+      <div class="tip" lang="uk"><strong>Авто-підключення:</strong> Увімкніть параметр авто-підключення в Налаштуваннях, якщо ви хочете, щоб WotStreamPlus підключався до OBS автоматично щоразу при запуску програми, без необхідності натискати Підключити вручну.</div>
+
+      <h3><span lang="en">Text Sources</span><span lang="uk">Текстові джерела</span></h3>
+
+      <p lang="en">Once connected, the app pushes statistics values to named text sources in your active OBS scene. If a required source does not exist yet it is created automatically. You can reposition and style these text sources freely inside OBS.</p>
+      <p lang="uk">Після підключення програма передає значення статистики до іменованих текстових джерел у вашій активній сцені OBS. Якщо необхідне джерело ще не існує, воно створюється автоматично. Ви можете вільно переміщати та стилізувати ці текстові джерела в OBS.</p>
+
+      <h3><span lang="en">Browser Sources</span><span lang="uk">Джерела браузера</span></h3>
+
+      <p lang="en">For richer overlay designs, point an OBS browser source at the local widget file generated by WotStreamPlus (see <a href="#html-widgets">HTML Widgets</a>). The browser source updates live after every battle with no manual refresh needed.</p>
+      <p lang="uk">Для складніших дизайнів оверлея вкажіть джерело браузера OBS на локальний файл віджета WotStreamPlus (див. <a href="#html-widgets">HTML-віджети</a>). Джерело браузера оновлюється після кожного бою без ручного оновлення.</p>
+    </section>
+
+    <!-- HTML Widgets -->
+    <section class="manual-section" id="html-widgets">
+      <h2><span lang="en">HTML Widgets</span><span lang="uk">HTML-віджети</span></h2>
+
+      <p lang="en">In addition to OBS text sources, WotStreamPlus can write live data to local HTML files. These files work as browser sources in OBS, Streamlabs, or any other software that supports local browser sources.</p>
+      <p lang="uk">Окрім текстових джерел OBS, WotStreamPlus може записувати живі дані до локальних HTML-файлів. Ці файли працюють як джерела браузера в OBS, Streamlabs або будь-якому іншому програмному забезпеченні, що підтримує локальні джерела браузера.</p>
+
+      <h3><span lang="en">Statistics Widget</span><span lang="uk">Віджет статистики</span></h3>
+
+      <p lang="en">When the Statistics tracker is running, a widget HTML file is written to the same folder as the WotStreamPlus application. To use it:</p>
+      <p lang="uk">Поки трекер статистики працює, HTML-файл віджета записується до тієї самої папки, де знаходиться програма WotStreamPlus. Щоб використати його:</p>
+
+      <ol>
+        <li lang="en">In your streaming software, add a new <strong>Browser Source</strong>.</li>
+        <li lang="uk">У вашому програмному забезпеченні для стримінгу додайте нове <strong>Джерело браузера</strong>.</li>
+        <li lang="en">Check the option to load from a <strong>local file</strong>.</li>
+        <li lang="uk">Виберіть параметр завантаження з <strong>локального файлу</strong>.</li>
+        <li lang="en">Browse to the WotStreamPlus application folder and select the statistics widget file.</li>
+        <li lang="uk">Перейдіть до папки програми WotStreamPlus та виберіть файл віджета статистики.</li>
+        <li lang="en">Set the width and height to match your overlay layout.</li>
+        <li lang="uk">Встановіть ширину та висоту відповідно до макета вашого оверлея.</li>
+      </ol>
+
+      <p lang="en">The file is updated automatically after each battle. The browser source will reflect the latest results without any manual refresh.</p>
+      <p lang="uk">Файл оновлюється автоматично після кожного бою. Джерело браузера відображатиме останні результати без ручного оновлення.</p>
+
+      <h3><span lang="en">Onslaught Widget</span><span lang="uk">Віджет Натиску</span></h3>
+
+      <p lang="en">A separate widget file is generated for the Onslaught tracker and saved in the same folder. Follow the same steps above to add it as a second browser source if you want to display both overlays simultaneously.</p>
+      <p lang="uk">Для трекера Натиску генерується окремий файл віджета, що зберігається в тій самій папці. Виконайте ті самі кроки вище, щоб додати його як друге джерело браузера, якщо ви хочете відображати обидва оверлеї одночасно.</p>
+
+      <div class="tip" lang="en"><strong>Tip:</strong> Using HTML widgets means your overlays work in any streaming software, not just OBS. You do not need to configure the OBS connection at all if you prefer this approach.</div>
+      <div class="tip" lang="uk"><strong>Порада:</strong> Використання HTML-віджетів означає, що ваші оверлеї працюють у будь-якому програмному забезпеченні для стримінгу, а не лише в OBS. Налаштовувати підключення до OBS не потрібно, якщо ви надаєте перевагу цьому підходу.</div>
+    </section>
+
+    <!-- Ladder Mode -->
+    <section class="manual-section" id="ladder-mode">
+      <h2><span lang="en">Ladder Mode</span><span lang="uk">Режим драбини</span></h2>
+
+      <p lang="en">The Ladder tab lets you run a challenge ladder during your stream. You define a sequence of stairs, each with its own goals, and the app tracks your progress automatically as you play — advancing you when you succeed and dropping you back when you run out of retries.</p>
+      <p lang="uk">Вкладка Драбина дозволяє проводити викликову драбину під час стриму. Ви визначаєте послідовність сходинок, кожна зі своїми цілями, і програма автоматично відстежує ваш прогрес — просуваючи вас уперед при успіху та повертаючи назад при вичерпанні спроб.</p>
+
+      <h3><span lang="en">Setting Up Stairs</span><span lang="uk">Налаштування сходинок</span></h3>
+
+      <p lang="en">Click <strong>Add stair</strong> to append a new stair to the ladder. Each stair has four fields:</p>
+      <p lang="uk">Натисніть <strong>Додати сходинку</strong>, щоб додати нову сходинку до драбини. Кожна сходинка має чотири поля:</p>
+
+      <ul>
+        <li lang="en"><strong>Damage goal</strong> — the minimum damage required to pass the stair.</li>
+        <li lang="uk"><strong>Ціль шкоди</strong> — мінімальна шкода, необхідна для проходження сходинки.</li>
+        <li lang="en"><strong>Kill goal</strong> — minimum kills required. Leave blank if kills are not required.</li>
+        <li lang="uk"><strong>Ціль знищень</strong> — мінімальна кількість знищень. Залиште порожнім, якщо знищення не вимагаються.</li>
+        <li lang="en"><strong>Prize</strong> — optional label shown on the widget when this stair is active. Use it to display what the viewer wins or what you commit to if you complete or fail the stair.</li>
+        <li lang="uk"><strong>Нагорода</strong> — необов'язкова мітка, що відображається на віджеті, поки ця сходинка активна. Використовуйте її, щоб показати, що отримає глядач або що ви зобов'язуєтесь зробити при проходженні чи провалі.</li>
+        <li lang="en"><strong>Retries</strong> — how many times you may fail this stair before dropping back. Leave blank for unlimited retries. Enter <strong>999</strong> to make this a floor stair (see below).</li>
+        <li lang="uk"><strong>Спроби</strong> — скільки разів ви можете не виконати цю сходинку перед поверненням назад. Залиште порожнім для необмеженої кількості спроб. Введіть <strong>999</strong>, щоб зробити сходинку нижньою межею (детальніше нижче).</li>
+      </ul>
+
+      <h3><span lang="en">Running the Ladder</span><span lang="uk">Запуск драбини</span></h3>
+
+      <p lang="en">Click <strong>Start</strong> in the Ladder tab. After each battle the app checks your result against the current stair's goals:</p>
+      <p lang="uk">Натисніть <strong>Старт</strong> у вкладці Драбина. Після кожного бою програма перевіряє ваш результат відповідно до цілей поточної сходинки:</p>
+
+      <ul>
+        <li lang="en"><strong>Pass</strong> — damage and kills both met. You advance to the next stair.</li>
+        <li lang="uk"><strong>Прохід</strong> — шкода та знищення виконані. Ви просуваєтесь до наступної сходинки.</li>
+        <li lang="en"><strong>Retry</strong> — goals not met, but retries remain. You stay on the same stair.</li>
+        <li lang="uk"><strong>Повторна спроба</strong> — цілі не виконані, але спроби залишились. Ви залишаєтесь на тій самій сходинці.</li>
+        <li lang="en"><strong>Drop</strong> — goals not met and retries exhausted. You fall back to the previous stair.</li>
+        <li lang="uk"><strong>Падіння</strong> — цілі не виконані, а спроби вичерпані. Ви повертаєтесь на попередню сходинку.</li>
+      </ul>
+
+      <h3><span lang="en">Floor Stairs</span><span lang="uk">Сходинки-нижні межі</span></h3>
+
+      <p lang="en">Enter <strong>999</strong> in the Retries field to make a stair a floor stair. Once you reach it, failing always keeps you on it — you can never drop below. The widget shows a lock icon (🔒) on the retry counter when the current stair is a floor stair.</p>
+      <p lang="uk">Введіть <strong>999</strong> у поле Спроби, щоб зробити сходинку нижньою межею. Досягнувши її, провали завжди залишатимуть вас на ній — ви не зможете впасти нижче. Віджет показує значок замка (🔒) на лічильнику спроб, коли поточна сходинка є нижньою межею.</p>
+
+      <h3><span lang="en">Ladder Widget</span><span lang="uk">Віджет драбини</span></h3>
+
+      <p lang="en">While the ladder is running, an HTML widget file is written to the application folder. Add it as a browser source in your streaming software the same way as the Statistics and Onslaught widgets (see <a href="#html-widgets">HTML Widgets</a>).</p>
+      <p lang="uk">Поки драбина запущена, HTML-файл віджета записується до папки програми. Додайте його як джерело браузера у вашому програмному забезпеченні для стримінгу так само, як і віджети Статистики та Натиску (дивіться <a href="#html-widgets">HTML-віджети</a>).</p>
+
+      <p lang="en">The widget shows all stairs stacked from bottom to top. The current stair is highlighted with a border and displayed slightly wider than the others so it stands out at a glance. Passed stairs are marked with a check mark. Each stair shows its damage goal, kill goal, prize (if set), and retry count or lock icon in a single line.</p>
+      <p lang="uk">Віджет відображає всі сходинки, складені знизу догори. Поточна сходинка виділяється рамкою та відображається трохи ширше за інші, щоб відразу впадати в очі. Пройдені сходинки позначаються галочкою. Кожна сходинка показує ціль шкоди, ціль знищень, нагороду (якщо встановлена) та кількість спроб або значок замка в одному рядку.</p>
+
+      <div class="tip" lang="en"><strong>Tip:</strong> The widget auto-refreshes every 5 seconds, so it stays current even if your streaming software caches the file briefly.</div>
+      <div class="tip" lang="uk"><strong>Порада:</strong> Віджет автоматично оновлюється кожні 5 секунд, тому залишається актуальним навіть якщо ваше програмне забезпечення для стримінгу тимчасово кешує файл.</div>
+    </section>
+
+    <!-- Subscription -->
+    <section class="manual-section" id="subscription">
+      <h2><span lang="en">Subscription</span><span lang="uk">Підписка</span></h2>
+
+      <p lang="en">Access to the Statistics and Onslaught features is controlled by your active WotStreamPlus subscription plan. The tabs for features not included in your plan are hidden automatically.</p>
+      <p lang="uk">Доступ до функцій Статистика та Натиск контролюється вашим активним планом підписки WotStreamPlus. Вкладки функцій, що не входять до вашого плану, приховуються автоматично.</p>
+
+      <h3><span lang="en">Checking Your Subscription</span><span lang="uk">Перевірка підписки</span></h3>
+
+      <p lang="en">Your current plan and expiry date are shown in the About tab. The app checks subscription status automatically in the background and will notify you when expiry is approaching.</p>
+      <p lang="uk">Ваш поточний план та дата закінчення відображаються у вкладці Про програму. Програма автоматично перевіряє статус підписки у фоновому режимі та сповістить вас, коли термін закінчення наближається.</p>
+
+      <h3><span lang="en">Expiry Notifications</span><span lang="uk">Сповіщення про закінчення</span></h3>
+
+      <p lang="en">WotStreamPlus notifies you at the following points:</p>
+      <p lang="uk">WotStreamPlus сповіщає вас у такі моменти:</p>
+
+      <ul>
+        <li lang="en"><strong>1 hour before expiry</strong> — first warning</li>
+        <li lang="uk"><strong>За 1 годину до закінчення</strong> — перше попередження</li>
+        <li lang="en"><strong>At expiry</strong> — the grace period begins; features remain available for 60 minutes</li>
+        <li lang="uk"><strong>При закінченні</strong> — починається пільговий період; функції залишаються доступними протягом 60 хвилин</li>
+        <li lang="en"><strong>10 minutes into the grace period</strong> — final reminder before features are locked</li>
+        <li lang="uk"><strong>Через 10 хвилин пільгового періоду</strong> — остаточне нагадування перед блокуванням функцій</li>
+      </ul>
+
+      <p lang="en">You can configure how often repeat reminders appear (between 1 and 8 hours) in the Settings tab.</p>
+      <p lang="uk">Ви можете налаштувати частоту повторних нагадувань (від 1 до 8 годин) у вкладці Налаштування.</p>
+
+      <h3><span lang="en">Re-login</span><span lang="uk">Повторний вхід</span></h3>
+
+      <p lang="en">If the app loses access to the server (for example after a long period without internet) it will prompt you to sign in again with your Wargaming account. This is automatic — no manual steps are required.</p>
+      <p lang="uk">Якщо програма втрачає доступ до сервера (наприклад, після тривалого перебування без інтернету), вона запропонує вам знову увійти до облікового запису Wargaming. Це відбувається автоматично — жодних ручних дій не потрібно.</p>
+    </section>
+
+    <!-- Settings -->
+    <section class="manual-section" id="settings">
+      <h2><span lang="en">Settings</span><span lang="uk">Налаштування</span></h2>
+
+      <p lang="en">All persistent configuration is available in the Settings tab.</p>
+      <p lang="uk">Усі постійні налаштування доступні у вкладці Налаштування.</p>
+
+      <h3><span lang="en">World of Tanks Path</span><span lang="uk">Шлях до World of Tanks</span></h3>
+
+      <p lang="en">Click <strong>Browse</strong> to select your WoT installation folder. The app detects and displays the installed game version next to the path. This path is required for replay monitoring and automatic mod updates — if it is not set, tracking will not work.</p>
+      <p lang="uk">Натисніть <strong>Огляд</strong>, щоб вибрати папку встановлення WoT. Програма визначає та відображає встановлену версію гри поруч із шляхом. Цей шлях необхідний для моніторингу реплеїв та автоматичного оновлення модів — якщо його не встановлено, відстеження не працюватиме.</p>
+
+      <h3><span lang="en">OBS Connection</span><span lang="uk">Підключення до OBS</span></h3>
+
+      <p lang="en">Enter the OBS WebSocket host, port, and password, then click <strong>Connect</strong>. The connection status is shown next to the button. Enable <strong>Auto-connect</strong> to connect automatically on app startup.</p>
+      <p lang="uk">Введіть хост WebSocket OBS, порт та пароль, потім натисніть <strong>Підключити</strong>. Статус з'єднання відображається поруч із кнопкою. Увімкніть <strong>Авто-підключення</strong> для автоматичного підключення при запуску програми.</p>
+
+      <h3><span lang="en">Subscription Notifications</span><span lang="uk">Сповіщення про підписку</span></h3>
+
+      <p lang="en">Use the interval selector to set how often you want to be reminded about an approaching subscription expiry. Options range from 1 to 8 hours. This controls the frequency of repeat reminders; the first warning always appears at 1 hour before expiry regardless of this setting.</p>
+      <p lang="uk">Використовуйте селектор інтервалу, щоб встановити частоту нагадувань про наближення закінчення підписки. Варіанти від 1 до 8 годин. Це керує частотою повторних нагадувань; перше попередження завжди з'являється за 1 годину до закінчення незалежно від цього налаштування.</p>
+
+      <h3><span lang="en">Minimize to Tray</span><span lang="uk">Згорнути у системний лоток</span></h3>
+
+      <p lang="en">When this option is enabled, clicking the window's close button minimizes WotStreamPlus to the system tray instead of exiting. The app continues running in the background — overlay data keeps updating, OBS stays connected, and all tracking continues uninterrupted. Click the tray icon to restore the window.</p>
+      <p lang="uk">Коли цей параметр увімкнено, натискання кнопки закриття вікна згортає WotStreamPlus у системний лоток замість виходу. Програма продовжує працювати у фоновому режимі — дані оверлея оновлюються, OBS залишається підключеним, а всі відстеження тривають безперебійно. Натисніть значок у лотку, щоб відновити вікно.</p>
+
+      <h3><span lang="en">Language</span><span lang="uk">Мова</span></h3>
+
+      <p lang="en">Select <strong>English</strong> or <strong>Українська</strong> from the language selector. The change applies immediately across the entire interface with no restart required.</p>
+      <p lang="uk">Виберіть <strong>English</strong> або <strong>Українська</strong> у селекторі мови. Зміна застосовується негайно по всьому інтерфейсу без необхідності перезапуску.</p>
+    </section>
+
+    <footer class="page-footer">
+      &copy; 2026 Symstriker. <span lang="en">All rights reserved.</span><span lang="uk">Усі права захищені.</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.className = 'lang-' + lang;
+    localStorage.setItem('wsp-lang', lang);
+    var url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-uk').classList.toggle('active', lang === 'uk');
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:') || a.hasAttribute('download')) return;
+    e.preventDefault();
+    var lang = (document.documentElement.className.match(/lang-(\w+)/) || [])[1];
+    var url = new URL(href, window.location.href);
+    if (lang) url.searchParams.set('lang', lang);
+    window.location.href = url.toString();
+  });
+
+  (function () {
+    var lang = /lang-(\w+)/.exec(document.documentElement.className);
+    if (lang) setLang(lang[1]);
+  })();
+</script>
+</body>
+</html>
