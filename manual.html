@@ -197,6 +197,7 @@
       <li><a href="#obs-integration"><span lang="en">OBS Integration</span><span lang="uk">Інтеграція OBS</span></a></li>
       <li><a href="#html-widgets"><span lang="en">HTML Widgets</span><span lang="uk">HTML-віджети</span></a></li>
       <li><a href="#ladder-mode"><span lang="en">Ladder Mode</span><span lang="uk">Режим драбини</span></a></li>
+      <li><a href="#versus-mode"><span lang="en">Versus Mode</span><span lang="uk">Режим Versus</span></a></li>
       <li><a href="#subscription"><span lang="en">Subscription</span><span lang="uk">Підписка</span></a></li>
       <li><a href="#settings"><span lang="en">Settings</span><span lang="uk">Налаштування</span></a></li>
     </ul>
@@ -497,6 +498,90 @@
 
       <div class="tip" lang="en"><strong>Tip:</strong> The widget auto-refreshes every 5 seconds, so it stays current even if your streaming software caches the file briefly.</div>
       <div class="tip" lang="uk"><strong>Порада:</strong> Віджет автоматично оновлюється кожні 5 секунд, тому залишається актуальним навіть якщо ваше програмне забезпечення для стримінгу тимчасово кешує файл.</div>
+    </section>
+
+    <!-- Versus Mode -->
+    <section class="manual-section" id="versus-mode">
+      <h2><span lang="en">Versus Mode</span><span lang="uk">Режим Versus</span></h2>
+
+      <p lang="en">The Versus tab lets you run head-to-head challenges on stream — player against player, or team against team. You configure who is playing, how rounds are won, and when the match is decided. The results update on your overlay after every battle.</p>
+      <p lang="uk">Вкладка Versus дозволяє проводити протистояння під час стриму — гравець проти гравця або команда проти команди. Ви налаштовуєте учасників, умови перемоги у раунді та умови завершення матчу. Результати оновлюються на оверлеї після кожного бою.</p>
+
+      <h3><span lang="en">Mode Switcher</span><span lang="uk">Перемикач режиму</span></h3>
+
+      <p lang="en">Choose between two challenge modes at the top of the tab:</p>
+      <p lang="uk">Виберіть один із двох режимів виклику у верхній частині вкладки:</p>
+
+      <ul>
+        <li lang="en"><strong>1 vs 1</strong> — compares one player from each side within the same battle. The app looks for one Side A player and one Side B player in each battle result and compares their individual stats head-to-head.</li>
+        <li lang="uk"><strong>1 vs 1</strong> — порівнює одного гравця з кожної сторони в одному бою. Програма шукає одного гравця Сторони A та одного гравця Сторони B в кожному результаті бою і порівнює їхню індивідуальну статистику.</li>
+        <li lang="en"><strong>Team vs Team</strong> — compares two predefined groups of players. Stats for all Side A players found in a battle are summed together and compared against the combined stats of all Side B players in the same battle.</li>
+        <li lang="uk"><strong>Команда проти команди</strong> — порівнює дві попередньо визначені групи гравців. Статистика всіх гравців Сторони A, знайдених у бою, підсумовується і порівнюється зі зведеною статистикою всіх гравців Сторони B в тому самому бою.</li>
+      </ul>
+
+      <h3><span lang="en">Setting Up Player Lists</span><span lang="uk">Налаштування списків гравців</span></h3>
+
+      <p lang="en">The left panel shows the <strong>Side A</strong> players and the right panel shows the <strong>Side B</strong> players. Click <strong>+</strong> to add a player name, then select a name and click <strong>−</strong> to remove it. Player names must match the in-game names exactly. Both lists are saved automatically and restored the next time you open the app.</p>
+      <p lang="uk">Ліва панель показує гравців <strong>Сторони A</strong>, а права — гравців <strong>Сторони B</strong>. Натисніть <strong>+</strong>, щоб додати ім'я гравця, виберіть ім'я та натисніть <strong>−</strong>, щоб видалити його. Імена гравців мають точно відповідати ігровим іменам. Обидва списки зберігаються автоматично та відновлюються при наступному відкритті програми.</p>
+
+      <h3><span lang="en">Team Names</span><span lang="uk">Назви команд</span></h3>
+
+      <p lang="en">Above each player list there is a name field. Type the label you want to display for that side — a clan tag, a player handle, or any short name. These names appear in the widget scoreboard as column headers above the score tiles. While a session is running the name fields are locked; edit them before clicking <strong>Start</strong>. Your entries are saved automatically.</p>
+      <p lang="uk">Над кожним списком гравців є поле для назви. Введіть мітку, яку хочете відображати для цієї сторони — тег клану, нікнейм або будь-яку коротку назву. Ці назви відображаються у скорборді віджету як заголовки стовпців над плитками рахунку. Поки сеанс запущений, поля назв заблоковані; редагуйте їх до натискання <strong>Start</strong>. Записи зберігаються автоматично.</p>
+
+      <h3><span lang="en">Best of N</span><span lang="uk">Найкращий з N</span></h3>
+
+      <p lang="en">Set the <strong>Best of</strong> value to determine how many rounds it takes to win the match. The first side to win the majority of rounds wins the match. For example, Best of 3 means the first side to win 2 rounds wins. When one side reaches the required wins the session ends automatically.</p>
+      <p lang="uk">Встановіть значення <strong>Найкращий з</strong>, щоб визначити, скільки раундів потрібно для перемоги в матчі. Перша сторона, що виграє більшість раундів, перемагає в матчі. Наприклад, «Найкращий з 3» означає, що перша сторона, яка виграє 2 раунди, перемагає. Коли одна сторона досягає необхідної кількості перемог, сеанс завершується автоматично.</p>
+
+      <h3><span lang="en">Win Rules</span><span lang="uk">Правила перемоги</span></h3>
+
+      <p lang="en">The center panel lets you configure how each round is decided. Rules are evaluated in order — the first rule that produces a different value between the two sides determines the round winner. If all rules tie, the round is a draw.</p>
+      <p lang="uk">Центральна панель дозволяє налаштувати, як визначається переможець у кожному раунді. Правила оцінюються по черзі — перше правило, що дає різне значення для двох сторін, визначає переможця раунду. Якщо всі правила дають нічию, раунд є нічиєю.</p>
+
+      <ul>
+        <li lang="en"><strong>Add Rule</strong> — select a stat from the dropdown (Damage, Assisted, Kills, Credits, and so on) and click <strong>Add Rule</strong> to append it to the rule chain.</li>
+        <li lang="uk"><strong>Додати правило</strong> — виберіть статистику зі спадного меню (Шкода, Допомога, Знищення, Кредити тощо) та натисніть <strong>Додати правило</strong>, щоб додати її до ланцюжка правил.</li>
+        <li lang="en"><strong>Add Field</strong> — select a rule row first, then pick a stat from the dropdown and click <strong>+ Field</strong>. This adds the chosen stat to the selected rule so both fields are summed together before comparison. For example, a single rule containing Damage and Assisted will compare each side's combined damage-plus-assisted value.</li>
+        <li lang="uk"><strong>+ Поле</strong> — спочатку виберіть рядок правила, потім виберіть статистику зі спадного меню та натисніть <strong>+ Поле</strong>. Це додає обрану статистику до вибраного правила, щоб обидва поля підсумовувалися перед порівнянням. Наприклад, правило, що містить Шкоду та Допомогу, порівнює зведене значення шкоди плюс допомога кожної сторони.</li>
+        <li lang="en"><strong>Remove</strong> — select a rule row and click <strong>Remove</strong> to delete it from the chain.</li>
+        <li lang="uk"><strong>Видалити</strong> — виберіть рядок правила та натисніть <strong>Видалити</strong>, щоб видалити його з ланцюжка.</li>
+        <li lang="en"><strong>▲ / ▼</strong> — move the selected rule up or down in priority order.</li>
+        <li lang="uk"><strong>▲ / ▼</strong> — переміщайте вибране правило вгору або вниз у порядку пріоритету.</li>
+      </ul>
+
+      <h3><span lang="en">Count by Points</span><span lang="uk">Рахувати за очками</span></h3>
+
+      <p lang="en">Enable <strong>Count by Points</strong> to switch from the rule chain to a weighted points formula. Each side earns points equal to their combined Damage, Assisted, and Credits, with Kills and Wins added as bonus multipliers you set in the interface. The side with the higher points total wins the round. When this option is on, the rule chain is ignored.</p>
+      <p lang="uk">Увімкніть <strong>Рахувати за очками</strong>, щоб перейти від ланцюжка правил до зваженої формули очок. Кожна сторона отримує очки, рівні сумі їхньої Шкоди, Допомоги та Кредитів, а Знищення та Перемоги додаються як бонусні множники, що ви встановлюєте в інтерфейсі. Сторона з більшою кількістю очок виграє раунд. Коли цей параметр увімкнено, ланцюжок правил ігнорується.</p>
+
+      <ul>
+        <li lang="en"><strong>Kills ×</strong> — each kill earns this many extra points.</li>
+        <li lang="uk"><strong>Знищення ×</strong> — кожне знищення дає стільки додаткових очок.</li>
+        <li lang="en"><strong>Win ×</strong> — this bonus is added when the side won the battle.</li>
+        <li lang="uk"><strong>Перемога ×</strong> — цей бонус додається, коли сторона виграла бій.</li>
+      </ul>
+
+      <h3><span lang="en">Font Style</span><span lang="uk">Стиль шрифту</span></h3>
+
+      <p lang="en">To the right of the score display, two dropdowns let you choose a font for the widget overlay. The first dropdown lists every font installed on your Windows system. The second lets you pick a size from 12 to 40 px. The chosen font and size apply to both the team name labels and the score digits in the widget. Your selection is saved automatically and restored the next time you open the app.</p>
+      <p lang="uk">Праворуч від відображення рахунку два спадні меню дозволяють вибрати шрифт для оверлею віджету. Перше меню містить усі шрифти, встановлені у вашій системі Windows. Друге дозволяє вибрати розмір від 12 до 40 пк. Обраний шрифт і розмір застосовуються як до міток назв команд, так і до цифр рахунку у віджеті. Ваш вибір зберігається автоматично та відновлюється при наступному відкритті програми.</p>
+
+      <h3><span lang="en">Score and Battle Log</span><span lang="uk">Рахунок та журнал боїв</span></h3>
+
+      <p lang="en">The current match score is shown at the top of the tab as <strong>A: X — B: Y</strong>. Below the player lists a round-by-round log shows each battle's map name, the compared values for both sides, the round winner, and the running score after that round.</p>
+      <p lang="uk">Поточний рахунок матчу відображається у верхній частині вкладки як <strong>A: X — B: Y</strong>. Під списками гравців журнал раунд за раундом показує назву карти кожного бою, порівнювані значення для обох сторін, переможця раунду та поточний рахунок після цього раунду.</p>
+
+      <h3><span lang="en">Versus Widget</span><span lang="uk">Versus-віджет</span></h3>
+
+      <p lang="en">While a session is running, WotStreamPlus writes a <code>versus-widget.html</code> file to the application folder. Add it as a browser source in your streaming software to display the live scoreboard on stream. The widget uses a three-column layout: the Side A team name and score tile on the left, a glowing golden «VS» separator in the centre, and the Side B team name and score tile on the right. Score tiles use a semi-transparent dark background with a white border so they blend with any stream scene. Below the scoreboard the round history log lists each battle result. The font and size you selected in the tab are applied to both the team name labels and the score digits.</p>
+      <p lang="uk">Поки сеанс запущений, WotStreamPlus записує файл <code>versus-widget.html</code> до папки програми. Додайте його як джерело браузера у своєму програмному забезпеченні для стримінгу, щоб відображати живий рахунок на стримі. Віджет використовує трьохколонкове компонування: назва команди Сторони A та плитка рахунку зліва, золотавий роздільник «VS» із підсвіткою по центру, назва команди Сторони B та плитка рахунку справа. Плитки рахунку мають напівпрозорий темний фон із білою рамкою, що добре поєднується з будь-якою сценою стриму. Під скорбордом журнал раундів відображає результат кожного бою. Шрифт та розмір, обрані у вкладці, застосовуються як до міток назв команд, так і до цифр рахунку.</p>
+
+      <p lang="en">The widget auto-refreshes every 5 seconds. If you use OBS Studio with the WebSocket connection active, scores update immediately without any page reload after each round.</p>
+      <p lang="uk">Віджет автоматично оновлюється кожні 5 секунд. Якщо ви використовуєте OBS Studio з активним підключенням WebSocket, рахунки оновлюються миттєво без жодного перезавантаження сторінки після кожного раунду.</p>
+
+      <div class="tip" lang="en"><strong>Tip:</strong> Click <strong>Copy</strong> next to the widget path to copy the full file path to the clipboard, then paste it directly into OBS as a browser source URL.</div>
+      <div class="tip" lang="uk"><strong>Порада:</strong> Натисніть <strong>Copy</strong> поруч із шляхом до віджета, щоб скопіювати повний шлях до файлу в буфер обміну, а потім вставте його безпосередньо в OBS як URL-адресу джерела браузера.</div>
     </section>
 
     <!-- Subscription -->
