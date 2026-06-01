@@ -540,8 +540,8 @@
       <p lang="uk">Центральна панель дозволяє налаштувати, як визначається переможець у кожному раунді. Правила оцінюються по черзі — перше правило, що дає різне значення для двох сторін, визначає переможця раунду. Якщо всі правила дають нічию, раунд є нічиєю.</p>
 
       <ul>
-        <li lang="en"><strong>Add Rule</strong> — select a stat from the dropdown (Damage, Assisted, Kills, Credits, and so on) and click <strong>Add Rule</strong> to append it to the rule chain.</li>
-        <li lang="uk"><strong>Додати правило</strong> — виберіть статистику зі спадного меню (Шкода, Допомога, Знищення, Кредити тощо) та натисніть <strong>Додати правило</strong>, щоб додати її до ланцюжка правил.</li>
+        <li lang="en"><strong>Add Rule</strong> — select a stat from the dropdown (Damage, Assisted, Kills, Credits, <strong>Win</strong>, and so on) and click <strong>Add Rule</strong> to append it to the rule chain.</li>
+        <li lang="uk"><strong>Додати правило</strong> — виберіть статистику зі спадного меню (Шкода, Допомога, Знищення, Кредити, <strong>Перемога</strong> тощо) та натисніть <strong>Додати правило</strong>, щоб додати її до ланцюжка правил.</li>
         <li lang="en"><strong>Add Field</strong> — select a rule row first, then pick a stat from the dropdown and click <strong>+ Field</strong>. This adds the chosen stat to the selected rule so both fields are summed together before comparison. For example, a single rule containing Damage and Assisted will compare each side's combined damage-plus-assisted value.</li>
         <li lang="uk"><strong>+ Поле</strong> — спочатку виберіть рядок правила, потім виберіть статистику зі спадного меню та натисніть <strong>+ Поле</strong>. Це додає обрану статистику до вибраного правила, щоб обидва поля підсумовувалися перед порівнянням. Наприклад, правило, що містить Шкоду та Допомогу, порівнює зведене значення шкоди плюс допомога кожної сторони.</li>
         <li lang="en"><strong>Remove</strong> — select a rule row and click <strong>Remove</strong> to delete it from the chain.</li>
@@ -549,6 +549,9 @@
         <li lang="en"><strong>▲ / ▼</strong> — move the selected rule up or down in priority order.</li>
         <li lang="uk"><strong>▲ / ▼</strong> — переміщайте вибране правило вгору або вниз у порядку пріоритету.</li>
       </ul>
+
+      <p lang="en">The <strong>Win</strong> field has special behaviour: when it is the only field in a rule, the side that won the actual WoT battle wins the round — no numeric comparison is made. When Win is combined with other fields in the same rule, it only contributes bonus points if <strong>Count by Points</strong> is enabled and the <strong>Win ×</strong> multiplier is greater than 1; otherwise it is ignored in the combination.</p>
+      <p lang="uk">Поле <strong>Перемога</strong> має особливу поведінку: якщо воно є єдиним у правилі, раунд виграє та сторона, яка перемогла у реальному бою в WoT — числове порівняння не відбувається. Коли поле «Перемога» поєднується з іншими полями в одному правилі, воно додає бонусні очки лише якщо увімкнено <strong>Рахувати за очками</strong> і множник <strong>Перемог ×</strong> більший за 1; інакше воно ігнорується у комбінації.</p>
 
       <h3><span lang="en">Count by Points</span><span lang="uk">Рахувати за очками</span></h3>
 
