@@ -574,22 +574,30 @@
 
       <h3><span lang="en">Versus Widget</span><span lang="uk">Versus-віджет</span></h3>
 
-      <p lang="en">While a session is running, WotStreamPlus writes a <code>versus-widget.html</code> file to the application folder. Add it as a browser source in your streaming software to display the live scoreboard on stream. The widget uses a three-column layout: the Side A team name and score tile on the left, a glowing golden «VS» separator in the centre, and the Side B team name and score tile on the right. Score tiles use a semi-transparent dark background with a white border so they blend with any stream scene. Below the scoreboard the round history log lists each battle result. The font and size you selected in the tab are applied to both the team name labels and the score digits.</p>
-      <p lang="uk">Поки сеанс запущений, WotStreamPlus записує файл <code>versus-widget.html</code> до папки програми. Додайте його як джерело браузера у своєму програмному забезпеченні для стримінгу, щоб відображати живий рахунок на стримі. Віджет використовує трьохколонкове компонування: назва команди Сторони A та плитка рахунку зліва, золотавий роздільник «VS» із підсвіткою по центру, назва команди Сторони B та плитка рахунку справа. Плитки рахунку мають напівпрозорий темний фон із білою рамкою, що добре поєднується з будь-якою сценою стриму. Під скорбордом журнал раундів відображає результат кожного бою. Шрифт та розмір, обрані у вкладці, застосовуються як до міток назв команд, так і до цифр рахунку.</p>
+      <p lang="en">While a session is running, WotStreamPlus writes a <code>versus-widget.html</code> file to the application folder. Add it as a browser source in your streaming software to display the live scoreboard on stream. The widget uses a three-column layout: the Side A team name and score tile on the left, a glowing golden «VS» separator in the centre, and the Side B team name and score tile on the right. Score tiles have a semi-transparent dark background with a white border; the outer container is fully transparent so your game capture or scene background shows through. The font and size you selected in the tab are applied to both the team name labels and the score digits. Below the scoreboard the round history log lists each battle result.</p>
+      <p lang="uk">Поки сеанс запущений, WotStreamPlus записує файл <code>versus-widget.html</code> до папки програми. Додайте його як джерело браузера у своєму програмному забезпеченні для стримінгу. Віджет використовує трьохколонкове компонування: назва команди Сторони A та плитка рахунку зліва, золотавий роздільник «VS» із підсвіткою по центру, назва команди Сторони B та плитка рахунку справа. Плитки рахунку мають напівпрозорий темний фон із білою рамкою; зовнішній контейнер повністю прозорий, тому фон гри або сцени просвічується. Шрифт та розмір, обрані у вкладці, застосовуються до міток назв та цифр рахунку. Під скорбордом журнал раундів відображає результат кожного бою.</p>
+
+      <p lang="en">The centre column shows <strong>BO{N}</strong> (e.g. BO3, BO5) directly below the VS text to indicate the series format. When a side is one win away from clinching the match the widget switches to a glowing <strong>MATCH POINT</strong> label; when both sides are simultaneously one win away the label reads <strong>DECIDER</strong>. The label disappears once the match is decided. Both labels are displayed in the language set in the app.</p>
+      <p lang="uk">Центральна колонка відображає <strong>BO{N}</strong> (наприклад BO3, BO5) безпосередньо під текстом VS, вказуючи формат серії. Коли одна сторона на одну перемогу від перемоги у матчі, віджет перемикається на підсвічений напис <strong>МАТЧ ПОІНТ</strong>; коли обидві сторони одночасно на одну перемогу — напис стає <strong>ДЕСАЙДЕР</strong>. Напис зникає після завершення матчу. Обидва написи відображаються мовою, встановленою у програмі.</p>
 
       <p lang="en">The widget auto-refreshes every 5 seconds. If you use OBS Studio with the WebSocket connection active, scores update immediately without any page reload after each round.</p>
       <p lang="uk">Віджет автоматично оновлюється кожні 5 секунд. Якщо ви використовуєте OBS Studio з активним підключенням WebSocket, рахунки оновлюються миттєво без жодного перезавантаження сторінки після кожного раунду.</p>
 
       <div class="tip" lang="en"><strong>Tip:</strong> Click <strong>Copy</strong> next to the widget path to copy the full file path to the clipboard, then paste it directly into OBS as a browser source URL.</div>
       <div class="tip" lang="uk"><strong>Порада:</strong> Натисніть <strong>Copy</strong> поруч із шляхом до віджета, щоб скопіювати повний шлях до файлу в буфер обміну, а потім вставте його безпосередньо в OBS як URL-адресу джерела браузера.</div>
+
+      <h3><span lang="en">Help</span><span lang="uk">Довідка</span></h3>
+
+      <p lang="en">Click the <strong>?</strong> button in the bottom toolbar of the Versus tab to open a help window with a description of every control and how to use the tab.</p>
+      <p lang="uk">Натисніть кнопку <strong>?</strong> на нижній панелі вкладки Versus, щоб відкрити вікно довідки з описом усіх елементів керування та інструкцією з використання вкладки.</p>
     </section>
 
     <!-- Subscription -->
     <section class="manual-section" id="subscription">
       <h2><span lang="en">Subscription</span><span lang="uk">Підписка</span></h2>
 
-      <p lang="en">Access to the Statistics and Onslaught features is controlled by your active WotStreamPlus subscription plan. The tabs for features not included in your plan are hidden automatically.</p>
-      <p lang="uk">Доступ до функцій Статистика та Натиск контролюється вашим активним планом підписки WotStreamPlus. Вкладки функцій, що не входять до вашого плану, приховуються автоматично.</p>
+      <p lang="en">Access to Statistics, Onslaught, Ladder, and Versus features is controlled by your active WotStreamPlus subscription plan. The tabs for features not included in your plan are hidden automatically.</p>
+      <p lang="uk">Доступ до функцій Статистика, Натиск, Сходинки та Versus контролюється вашим активним планом підписки WotStreamPlus. Вкладки функцій, що не входять до вашого плану, приховуються автоматично.</p>
 
       <h3><span lang="en">Checking Your Subscription</span><span lang="uk">Перевірка підписки</span></h3>
 
