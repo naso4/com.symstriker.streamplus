@@ -1,0 +1,20 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+
+# Claude — local session files, do not commit
+.claude/settings.local.json
+.claude/todos.json
+.claude/worktrees/
+
+# Installer binaries — large files, tracked outside git
+downloads/*.exe
+downloads/*.msi
+
+# Deploy zip — regenerated on each release
+*.zip
