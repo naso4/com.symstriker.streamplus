@@ -170,6 +170,35 @@
       color: var(--text-muted);
     }
 
+    code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .manual-section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 16px;
+      font-size: 13px;
+    }
+    .manual-section th {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .manual-section td {
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      line-height: 1.55;
+    }
+
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -200,6 +229,7 @@
       <li><a href="#versus-mode"><span lang="en">Versus Mode</span><span lang="uk">Режим Versus</span></a></li>
       <li><a href="#subscription"><span lang="en">Subscription</span><span lang="uk">Підписка</span></a></li>
       <li><a href="#settings"><span lang="en">Settings</span><span lang="uk">Налаштування</span></a></li>
+      <li><a href="#youtube"><span lang="en">YouTube</span><span lang="uk">YouTube</span></a></li>
     </ul>
 
     <div class="lang-switcher">
@@ -669,6 +699,150 @@
 
       <p lang="en">Select <strong>English</strong> or <strong>Українська</strong> from the language selector. The change applies immediately across the entire interface with no restart required.</p>
       <p lang="uk">Виберіть <strong>English</strong> або <strong>Українська</strong> у селекторі мови. Зміна застосовується негайно по всьому інтерфейсу без необхідності перезапуску.</p>
+    </section>
+
+    <!-- YouTube -->
+    <section class="manual-section" id="youtube">
+      <h2><span lang="en">YouTube Integration</span><span lang="uk">Інтеграція YouTube</span></h2>
+
+      <p lang="en">The YouTube tab connects WotStreamPlus to your YouTube channel while you are live. It shows your stream's like count and concurrent viewer count in the app, writes a live stats widget for OBS, and runs a chat command system that lets viewers spend earned XP on sound effects played through your stream.</p>
+      <p lang="uk">Вкладка YouTube підключає WotStreamPlus до вашого каналу YouTube під час прямого ефіру. Програма відображає кількість лайків і одночасних глядачів, записує живий віджет статистики для OBS та запускає систему команд чату, що дозволяє глядачам витрачати зароблений XP на звукові ефекти у стримі.</p>
+
+      <div class="tip" lang="en"><strong>Requirement:</strong> This feature requires a Google Cloud project with the YouTube Data API v3 enabled and OAuth 2.0 credentials configured. Contact the app developer or your subscription support to obtain the required credentials.</div>
+      <div class="tip" lang="uk"><strong>Вимога:</strong> Для цієї функції потрібен проєкт Google Cloud із увімкненим YouTube Data API v3 та налаштованими обліковими даними OAuth 2.0. Зверніться до розробника або служби підтримки підписки для отримання необхідних облікових даних.</div>
+
+      <h3><span lang="en">Connecting Your Channel</span><span lang="uk">Підключення каналу</span></h3>
+
+      <p lang="en">Open the <strong>YouTube</strong> tab and click <strong>Connect YouTube</strong>. Your default browser opens to Google's OAuth consent screen. Sign in with the Google account that owns your YouTube channel and grant the requested read-only access. Once you approve, the browser closes the redirect automatically and the app shows <em>Connected</em>.</p>
+      <p lang="uk">Відкрийте вкладку <strong>YouTube</strong> і натисніть <strong>Підключити YouTube</strong>. Ваш браузер за замовчуванням відкриється на сторінці підтвердження OAuth Google. Увійдіть за допомогою облікового запису Google, якому належить ваш YouTube-канал, і надайте запитаний доступ лише для читання. Після підтвердження браузер автоматично завершить перенаправлення, а програма покаже <em>Підключено</em>.</p>
+
+      <ul>
+        <li lang="en">The connection is remembered across sessions — you will not need to re-authenticate unless you click <strong>Disconnect</strong> or revoke access from your Google account settings.</li>
+        <li lang="uk">З'єднання зберігається між сеансами — повторна автентифікація не потрібна, якщо ви не натиснете <strong>Відключити</strong> або не скасуєте доступ у налаштуваннях Google.</li>
+        <li lang="en">The app detects your active live stream automatically on connect. If no stream is currently live, the tab shows <em>No active live stream found</em> — start your stream first, then reconnect.</li>
+        <li lang="uk">Програма автоматично виявляє ваш активний прямий ефір при підключенні. Якщо ефір не активний, вкладка показує <em>Активний прямий ефір не знайдено</em> — спочатку розпочніть ефір, потім підключіться знову.</li>
+        <li lang="en">To disconnect, click <strong>Disconnect</strong>. This revokes the stored token and stops all polling immediately.</li>
+        <li lang="uk">Щоб відключитися, натисніть <strong>Відключити</strong>. Це скасовує збережений токен і негайно зупиняє все опитування.</li>
+      </ul>
+
+      <h3><span lang="en">Live Stats Widget</span><span lang="uk">Віджет живої статистики</span></h3>
+
+      <p lang="en">Once connected to an active stream, the app displays the current like count and concurrent viewer count. These update on the interval set by the <strong>Poll interval (s)</strong> field (default 15 s, minimum 10 s). At the same time, the app writes a <code>youtube-widget.html</code> file to the WotStreamPlus data folder that refreshes itself every 5 seconds.</p>
+      <p lang="uk">Після підключення до активного ефіру програма відображає поточну кількість лайків і одночасних глядачів. Вони оновлюються з інтервалом, встановленим у полі <strong>Інтервал опитування (с)</strong> (за замовчуванням 15 с, мінімум 10 с). Водночас програма записує файл <code>youtube-widget.html</code> до папки даних WotStreamPlus, який автоматично оновлюється кожні 5 секунд.</p>
+
+      <p lang="en">To show it as an overlay in OBS:</p>
+      <p lang="uk">Щоб відобразити його як оверлей в OBS:</p>
+      <ol>
+        <li lang="en">Click <strong>Copy</strong> next to the widget path field to copy the file path.</li>
+        <li lang="uk">Натисніть <strong>Copy</strong> поруч із полем шляху до віджета, щоб скопіювати шлях до файлу.</li>
+        <li lang="en">In OBS, add a <strong>Browser Source</strong>. Check <strong>Local file</strong> and paste the copied path.</li>
+        <li lang="uk">В OBS додайте <strong>Browser Source</strong>. Увімкніть <strong>Local file</strong> та вставте скопійований шлях.</li>
+        <li lang="en">Set the source size to <strong>360 × 120</strong>.</li>
+        <li lang="uk">Встановіть розмір джерела <strong>360 × 120</strong>.</li>
+      </ol>
+
+      <p lang="en">If you use <strong>OBS mode</strong> (the radio button in the tab), the app also creates a browser source named <code>WotStream_YouTube</code> directly in your current OBS scene at the same size.</p>
+      <p lang="uk">Якщо ви використовуєте режим <strong>OBS</strong> (перемикач у вкладці), програма також автоматично створює джерело браузера з назвою <code>WotStream_YouTube</code> у вашій поточній сцені OBS того ж розміру.</p>
+
+      <div class="tip" lang="en"><strong>Counter stopped updating?</strong> If you see the message <em>YouTube quota reached — resets at midnight Pacific Time</em>, the daily API quota has been exhausted. Polling resumes automatically after midnight PT. To minimise quota use, avoid setting the poll interval below 15 seconds.</div>
+      <div class="tip" lang="uk"><strong>Лічильник перестав оновлюватись?</strong> Якщо ви бачите повідомлення <em>Ліміт YouTube вичерпано — скидається опівночі за тихоокеанським часом</em>, денна квота API вичерпана. Опитування автоматично відновиться після опівночі за тихоокеанським часом. Щоб мінімізувати використання квоти, не встановлюйте інтервал опитування нижче 15 секунд.</div>
+
+      <h3><span lang="en">Chat Commands</span><span lang="uk">Команди чату</span></h3>
+
+      <p lang="en">While a live stream is active, WotStreamPlus polls your stream's live chat for commands. Any viewer who types a command in chat triggers it — no sign-up or account linking is required.</p>
+      <p lang="uk">Поки ефір активний, WotStreamPlus відстежує живий чат вашого стриму на наявність команд. Будь-який глядач, який вводить команду в чаті, активує її — реєстрація або прив'язка облікового запису не потрібна.</p>
+
+      <h3><span lang="en">XP System</span><span lang="uk">Система XP</span></h3>
+
+      <p lang="en">Viewers earn XP after each World of Tanks battle you finish — regardless of the outcome. Any viewer who sent at least one chat message since your previous battle receives the configured XP amount. Set how much XP is awarded per battle using the <strong>XP per battle</strong> field in the YouTube tab (default: 10, range: 1–999).</p>
+      <p lang="uk">Глядачі отримують XP після кожного завершеного вами бою в World of Tanks — незалежно від результату. Кожен глядач, який надіслав хоча б одне повідомлення в чаті з часу попереднього бою, отримує налаштовану кількість XP. Встановіть кількість XP за бій у полі <strong>XP за бій</strong> у вкладці YouTube (за замовчуванням: 10, діапазон: 1–999).</p>
+
+      <h3><span lang="en">Command Reference</span><span lang="uk">Довідник команд</span></h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th><span lang="en">Command</span><span lang="uk">Команда</span></th>
+            <th><span lang="en">Cost</span><span lang="uk">Вартість</span></th>
+            <th><span lang="en">What it does</span><span lang="uk">Що робить</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>!xp</code></td>
+            <td><span lang="en">Free</span><span lang="uk">Безкоштовно</span></td>
+            <td>
+              <span lang="en">The bot replies in chat with the viewer's current XP balance.</span>
+              <span lang="uk">Бот відповідає в чаті поточним балансом XP глядача.</span>
+            </td>
+          </tr>
+          <tr>
+            <td><code>!sound &lt;name&gt;</code></td>
+            <td><span lang="en">Configured per sound</span><span lang="uk">Налаштовується для кожного звуку</span></td>
+            <td>
+              <span lang="en">Plays the named sound through OBS. The bot confirms playback and shows XP spent and remaining.</span>
+              <span lang="uk">Відтворює вказаний звук через OBS. Бот підтверджує відтворення та показує витрачений і залишковий XP.</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip" lang="en"><strong>Rate limit:</strong> Each viewer can use one paid command every 30 seconds. <code>!xp</code> is always free and has no rate limit. Unknown commands are silently ignored.</div>
+      <div class="tip" lang="uk"><strong>Обмеження частоти:</strong> Кожен глядач може використовувати одну платну команду кожні 30 секунд. <code>!xp</code> завжди безкоштовний і не має обмеження частоти. Невідомі команди ігноруються без відповіді.</div>
+
+      <h3><span lang="en">Sound Library Setup</span><span lang="uk">Налаштування бібліотеки звуків</span></h3>
+
+      <p lang="en">Follow these steps to enable <code>!sound</code> commands:</p>
+      <p lang="uk">Виконайте ці кроки, щоб увімкнути команди <code>!sound</code>:</p>
+
+      <ol>
+        <li lang="en"><strong>Prepare a sounds folder</strong> — create a folder anywhere on your PC and add <code>.mp3</code> or <code>.wav</code> files to it. File names become the default command names.</li>
+        <li lang="uk"><strong>Підготуйте папку зі звуками</strong> — створіть папку будь-де на ПК та додайте до неї файли <code>.mp3</code> або <code>.wav</code>. Назви файлів стають назвами команд за замовчуванням.</li>
+        <li lang="en"><strong>Point the app to it</strong> — in the YouTube tab, click <strong>Browse</strong> next to <em>Sounds folder</em> and select your folder. The app scans it and populates the sound list below.</li>
+        <li lang="uk"><strong>Вкажіть шлях у програмі</strong> — у вкладці YouTube натисніть <strong>Огляд</strong> поруч із <em>Папка звуків</em> і виберіть папку. Програма просканує її та заповнить список звуків нижче.</li>
+        <li lang="en"><strong>Configure each sound</strong> — in the sound list, edit the <em>Name</em> column to set the display name viewers type in chat (e.g. <code>!sound hype</code>), and edit the <em>XP Cost</em> column to set how much XP the command costs. Changes save automatically.</li>
+        <li lang="uk"><strong>Налаштуйте кожен звук</strong> — у списку звуків відредагуйте стовпець <em>Назва</em>, щоб встановити ім'я, яке глядачі вводять у чаті (наприклад <code>!sound hype</code>), і стовпець <em>Вартість XP</em>. Зміни зберігаються автоматично.</li>
+        <li lang="en">
+          <strong>Add the OBS media source</strong> — WotStreamPlus controls sound playback through a single OBS Media Source named exactly <code>WotStream_Sounds</code>. Create it once:
+          <ol>
+            <li lang="en">In OBS, right-click your scene → <strong>Add</strong> → <strong>Media Source</strong>.</li>
+            <li lang="en">Name it <strong>WotStream_Sounds</strong> (exact spelling, case-sensitive).</li>
+            <li lang="en">Uncheck <strong>Loop</strong> and uncheck <strong>Restart playback when source becomes active</strong>.</li>
+            <li lang="en">Leave the file path blank — the app sets it automatically when a command fires.</li>
+            <li lang="en">Click OK. The source does not need to be visible on screen; it can sit in any scene and will still play audio.</li>
+          </ol>
+        </li>
+        <li lang="uk">
+          <strong>Додайте медіаджерело OBS</strong> — WotStreamPlus керує відтворенням через одне медіаджерело OBS з точною назвою <code>WotStream_Sounds</code>. Створіть його один раз:
+          <ol>
+            <li lang="uk">В OBS клацніть правою кнопкою на сцені → <strong>Додати</strong> → <strong>Media Source</strong>.</li>
+            <li lang="uk">Назвіть його <strong>WotStream_Sounds</strong> (точна назва з урахуванням регістру).</li>
+            <li lang="uk">Зніміть прапорці <strong>Loop</strong> і <strong>Restart playback when source becomes active</strong>.</li>
+            <li lang="uk">Залиште шлях до файлу порожнім — програма встановлює його автоматично під час виконання команди.</li>
+            <li lang="uk">Натисніть OK. Джерело не обов'язково показувати на екрані; воно може знаходитись у будь-якій сцені та відтворювати звук.</li>
+          </ol>
+        </li>
+        <li lang="en"><strong>Test it</strong> — while you are live, type <code>!sound &lt;name&gt;</code> in your own chat. The bot should reply with a confirmation and the sound should play through OBS within a few seconds.</li>
+        <li lang="uk"><strong>Перевірте</strong> — поки ви в ефірі, введіть <code>!sound &lt;назва&gt;</code> у власному чаті. Бот має відповісти підтвердженням, а звук відтворитися через OBS протягом кількох секунд.</li>
+      </ol>
+
+      <div class="tip" lang="en"><strong>Sound queue:</strong> Up to 3 sounds can be queued at once. There is a minimum 5-second gap between plays so sounds don't overlap. If the queue is full, new requests are silently dropped until space opens up.</div>
+      <div class="tip" lang="uk"><strong>Черга звуків:</strong> Одночасно можна поставити в чергу до 3 звуків. Між відтвореннями є мінімальний інтервал 5 секунд, щоб звуки не накладалися. Якщо черга заповнена, нові запити мовчки відхиляються.</div>
+
+      <h3><span lang="en">Troubleshooting</span><span lang="uk">Усунення проблем</span></h3>
+
+      <ul>
+        <li lang="en"><strong>No active live stream found</strong> — your stream must already be live before you click Connect. Start streaming in OBS first, wait for YouTube to confirm the stream is live, then connect.</li>
+        <li lang="uk"><strong>Активний прямий ефір не знайдено</strong> — ваш ефір має бути активним до натискання «Підключити». Спочатку розпочніть стрімінг в OBS, зачекайте, поки YouTube підтвердить активний ефір, потім підключайтесь.</li>
+        <li lang="en"><strong>Sound doesn't play</strong> — verify that the OBS source is named exactly <code>WotStream_Sounds</code> (case-sensitive) and that OBS WebSocket is connected. The app shows a one-time warning in the status bar if it cannot find the source.</li>
+        <li lang="uk"><strong>Звук не відтворюється</strong> — переконайтеся, що джерело OBS називається точно <code>WotStream_Sounds</code> (з урахуванням регістру) і що OBS WebSocket підключено. Програма показує одноразове попередження у рядку стану, якщо джерело не знайдено.</li>
+        <li lang="en"><strong>YouTube quota reached</strong> — the daily API quota has been exhausted. It resets at midnight Pacific Time. In the meantime, likes and chat commands stop updating. Increasing the poll interval before the next session reduces daily quota consumption.</li>
+        <li lang="uk"><strong>Ліміт YouTube вичерпано</strong> — денна квота API вичерпана. Вона скидається опівночі за тихоокеанським часом. Тим часом лайки та команди чату не оновлюються. Збільшення інтервалу опитування перед наступним сеансом зменшить щоденне споживання квоти.</li>
+        <li lang="en"><strong>Viewer sees "not enough XP"</strong> — the viewer needs to be active in chat during more battles to accumulate enough XP. Their balance increases automatically after each battle you finish.</li>
+        <li lang="uk"><strong>Глядач бачить "not enough XP"</strong> — глядачеві потрібно бути активним у чаті під час більшої кількості боїв для накопичення XP. Баланс автоматично збільшується після кожного завершеного вами бою.</li>
+        <li lang="en"><strong>Commands not responding</strong> — confirm the YouTube tab shows <em>Connected</em> and a live stream was detected. If the stream ended mid-session, disconnect and reconnect to pick up a new stream.</li>
+        <li lang="uk"><strong>Команди не реагують</strong> — переконайтеся, що вкладка YouTube показує <em>Підключено</em> і виявлено прямий ефір. Якщо ефір завершився під час сеансу, відключіться та підключіться знову, щоб виявити новий ефір.</li>
+      </ul>
     </section>
 
     <footer class="page-footer">
