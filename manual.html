@@ -230,6 +230,7 @@
       <li><a href="#subscription"><span lang="en">Subscription</span><span lang="uk">Підписка</span></a></li>
       <li><a href="#settings"><span lang="en">Settings</span><span lang="uk">Налаштування</span></a></li>
       <li><a href="#youtube"><span lang="en">YouTube</span><span lang="uk">YouTube</span></a></li>
+      <li><a href="#challenge"><span lang="en">Challenge Mode</span><span lang="uk">Режим «Виклик»</span></a></li>
     </ul>
 
     <div class="lang-switcher">
@@ -843,6 +844,63 @@
         <li lang="en"><strong>Commands not responding</strong> — confirm the YouTube tab shows <em>Connected</em> and a live stream was detected. If the stream ended mid-session, disconnect and reconnect to pick up a new stream.</li>
         <li lang="uk"><strong>Команди не реагують</strong> — переконайтеся, що вкладка YouTube показує <em>Підключено</em> і виявлено прямий ефір. Якщо ефір завершився під час сеансу, відключіться та підключіться знову, щоб виявити новий ефір.</li>
       </ul>
+    </section>
+
+    <section class="manual-section" id="challenge">
+      <h2><span lang="en">Challenge Mode</span><span lang="uk">Режим «Виклик»</span></h2>
+
+      <p lang="en">The <strong>Challenge</strong> tab lets you define a custom win formula made up of one or more goals. Each goal can have several <em>OR-alternatives</em>, and each alternative sums a selection of stats and checks whether the total meets a threshold. You can run challenges solo, track each squad player individually, or combine the whole squad's stats cooperatively.</p>
+      <p lang="uk">Вкладка <strong>Виклик</strong> дозволяє задати власну формулу перемоги з одного або кількох цілей. Кожна ціль може мати кілька <em>OR-альтернатив</em>, і кожна альтернатива підсумовує обрані показники та перевіряє, чи досягнуто порогового значення. Ви можете запускати виклики в соло, відстежувати кожного гравця загону окремо або об'єднати статистику всього загону.</p>
+
+      <h3><span lang="en">Challenge Types</span><span lang="uk">Типи викликів</span></h3>
+
+      <ul>
+        <li lang="en"><strong>Reach to Win</strong> — all goals in the formula must be satisfied in a single battle. Use this when you want to set one combined target per fight.</li>
+        <li lang="uk"><strong>Досягти перемоги</strong> — усі цілі формули повинні бути виконані в одному бою. Використовуйте, коли хочете задати одну комбіновану мету за бій.</li>
+        <li lang="en"><strong>Chain of Goals</strong> — goals are completed one by one across consecutive battles. The app advances to the next goal only after the current one is met. The challenge is won when the final goal is reached.</li>
+        <li lang="uk"><strong>Ланцюжок цілей</strong> — цілі виконуються одна за одною в послідовних боях. Програма переходить до наступної цілі лише після виконання поточної. Виклик виграно, коли досягнуто фінальну ціль.</li>
+      </ul>
+
+      <h3><span lang="en">Building a Win Formula</span><span lang="uk">Складання формули перемоги</span></h3>
+
+      <ol>
+        <li lang="en"><strong>Add a goal</strong> — click <em>+ Goal</em>. A new entry appears in the Goals list. All goals in the list must be met (AND-connected).</li>
+        <li lang="uk"><strong>Додати ціль</strong> — натисніть <em>+ Ціль</em>. У списку цілей з'явиться новий запис. Усі цілі у списку мають бути виконані (AND-зв'язок).</li>
+        <li lang="en"><strong>Add an alternative</strong> — select a goal, then click <em>+ Alt</em>. Alternatives within a goal are OR-connected: the goal is met if <em>any</em> alternative passes.</li>
+        <li lang="uk"><strong>Додати альтернативу</strong> — виберіть ціль, потім натисніть <em>+ Alt</em>. Альтернативи всередині цілі пов'язані через OR: ціль виконана, якщо виконана <em>будь-яка</em> альтернатива.</li>
+        <li lang="en"><strong>Define the clause</strong> — select an alternative, tick the stat options you want summed (e.g. <em>Damage Dealt</em> + <em>Assisted Damage</em>), enter the threshold in the <em>≥</em> field, then click <em>Set Clause</em>.</li>
+        <li lang="uk"><strong>Задати умову</strong> — виберіть альтернативу, позначте показники, які потрібно підсумувати (наприклад, <em>Нанесена шкода</em> + <em>Шкода за допомогою</em>), введіть порогове значення у полі <em>≥</em>, потім натисніть <em>Set Clause</em>.</li>
+      </ol>
+
+      <p lang="en">The <strong>Formula Preview</strong> panel on the right updates live and shows the full formula as readable text, for example:</p>
+      <p lang="uk">Панель <strong>Попередній перегляд формули</strong> праворуч оновлюється в реальному часі та відображає повну формулу у зрозумілому вигляді, наприклад:</p>
+
+      <pre lang="en">Complete all:
+Goal 1: (Damage Dealt + Assisted Damage) ≥ 7 000 OR (Damage Dealt ≥ 5 000 AND Win ≥ 1)</pre>
+      <pre lang="uk">Виконати всі:
+Ціль 1: (Нанесена шкода + Шкода за допомогою) ≥ 7 000 OR (Нанесена шкода ≥ 5 000 AND Перемога ≥ 1)</pre>
+
+      <h3><span lang="en">Count by Points and Multiplier Options</span><span lang="uk">Підрахунок за очками та мультиплікатори</span></h3>
+
+      <p lang="en">The <strong>Win</strong> and <strong>Kills</strong> options are <em>multiplier options</em> — they return 1 if the condition is met (win = 1, at least one kill = 1), not an absolute number. These options are only available when <strong>Count by Points</strong> is checked. If you uncheck it, any goals using multiplier options will raise a warning.</p>
+      <p lang="uk">Опції <strong>Перемога</strong> та <strong>Вбивства</strong> є <em>мультиплікаторами</em> — вони повертають 1, якщо умова виконана (перемога = 1, хоча б одне вбивство = 1), а не абсолютне число. Ці опції доступні лише якщо встановлено прапорець <strong>Підрахунок за очками</strong>. Якщо ви знімете його, цілі, що використовують мультиплікатори, покажуть попередження.</p>
+
+      <h3><span lang="en">Squad and Coop Modes</span><span lang="uk">Режими загону та кооперативу</span></h3>
+
+      <p lang="en">Add squad players using the <strong>+</strong> button in the left panel (same as in the Ladder tab). Then choose how the challenge is tracked:</p>
+      <p lang="uk">Додайте гравців загону за допомогою кнопки <strong>+</strong> на лівій панелі (так само як у вкладці «Драбина»). Потім виберіть режим відстеження виклику:</p>
+
+      <ul>
+        <li lang="en"><strong>No checkboxes</strong> — solo mode. The app evaluates your own battle stats against the formula.</li>
+        <li lang="uk"><strong>Без прапорців</strong> — режим соло. Програма перевіряє ваші особисті бойові показники за формулою.</li>
+        <li lang="en"><strong>Squad Challenge only</strong> — each squad player's stats are evaluated independently. The goal is met if any player in the squad satisfies the formula for that battle.</li>
+        <li lang="uk"><strong>Лише «Виклик загону»</strong> — показники кожного гравця загону перевіряються окремо. Ціль виконана, якщо будь-який гравець загону задовольняє формулу в цьому бою.</li>
+        <li lang="en"><strong>Both Squad and Coop Challenge</strong> — all squad players' stats are summed together for each option, then the combined total is checked against the formula. One result applies to the whole team.</li>
+        <li lang="uk"><strong>Обидва: «Виклик загону» і «Кооперативний виклик»</strong> — показники всіх гравців загону підсумовуються для кожної опції, потім загальна сума перевіряється за формулою. Один результат застосовується до всієї команди.</li>
+      </ul>
+
+      <div class="tip" lang="en"><strong>Note:</strong> <em>Coop Challenge</em> is only editable when <em>Squad Challenge</em> is also checked.</div>
+      <div class="tip" lang="uk"><strong>Примітка:</strong> <em>Кооперативний виклик</em> доступний для редагування лише тоді, коли також встановлено прапорець <em>Виклик загону</em>.</div>
     </section>
 
     <footer class="page-footer">
