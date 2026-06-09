@@ -863,17 +863,25 @@
 
       <h3><span lang="en">Building a Win Formula</span><span lang="uk">Складання формули перемоги</span></h3>
 
+      <p lang="en">Goals are configured using the <strong>Main Goal</strong> and <strong>Alternative Goal</strong> sections in the centre panel. Each section shows a flat list of stat options — tick the ones you want and enter a minimum value beside each one. When you are happy with the configuration, click <strong>Add Goal</strong>.</p>
+      <p lang="uk">Цілі налаштовуються у розділах <strong>Основна ціль</strong> та <strong>Альтернативна ціль</strong> у центральній панелі. Кожен розділ показує список показників — відмітьте потрібні та введіть мінімальне значення поруч із кожним. Коли конфігурацію завершено, натисніть <strong>Додати ціль</strong>.</p>
+
       <ol>
-        <li lang="en"><strong>Add a goal</strong> — click <em>+ Goal</em>. A new entry appears in the Goals list. All goals in the list must be met (AND-connected).</li>
-        <li lang="uk"><strong>Додати ціль</strong> — натисніть <em>+ Ціль</em>. У списку цілей з'явиться новий запис. Усі цілі у списку мають бути виконані (AND-зв'язок).</li>
-        <li lang="en"><strong>Add an alternative</strong> — select a goal, then click <em>+ Alt</em>. Alternatives within a goal are OR-connected: the goal is met if <em>any</em> alternative passes.</li>
-        <li lang="uk"><strong>Додати альтернативу</strong> — виберіть ціль, потім натисніть <em>+ Alt</em>. Альтернативи всередині цілі пов'язані через OR: ціль виконана, якщо виконана <em>будь-яка</em> альтернатива.</li>
-        <li lang="en"><strong>Define the clause</strong> — select an alternative, tick the stat options you want summed (e.g. <em>Damage Dealt</em> + <em>Assisted Damage</em>), enter the threshold in the <em>≥</em> field, then click <em>Set Clause</em>.</li>
-        <li lang="uk"><strong>Задати умову</strong> — виберіть альтернативу, позначте показники, які потрібно підсумувати (наприклад, <em>Нанесена шкода</em> + <em>Шкода за допомогою</em>), введіть порогове значення у полі <em>≥</em>, потім натисніть <em>Set Clause</em>.</li>
+        <li lang="en"><strong>Configure the Main Goal</strong> — tick each stat option you require and enter its minimum value in the field beside it. <em>Win</em> has no number field — ticking it means you must win the battle.</li>
+        <li lang="uk"><strong>Налаштуйте основну ціль</strong> — відмітьте кожен показник, який вимагаєте, і введіть його мінімальне значення у полі поруч. <em>Перемога</em> не має числового поля — відмітка означає, що потрібно виграти бій.</li>
+        <li lang="en"><strong>Add an alternative (optional)</strong> — click <em>▼ Add Alternative (OR)</em> to expand the Alternative Goal section and configure a second path to passing the goal. If either the Main or the Alternative is satisfied, the goal is met.</li>
+        <li lang="uk"><strong>Додайте альтернативу (необов'язково)</strong> — натисніть <em>▼ Додати альтернативу (OR)</em>, щоб розгорнути розділ альтернативної цілі та налаштувати другий шлях до виконання цілі. Якщо виконано основну АБО альтернативну умову, ціль вважається досягнутою.</li>
+        <li lang="en"><strong>Click Add Goal</strong> — the goal appears in the <strong>Goals</strong> panel on the right. The configurator resets automatically so you can define the next goal.</li>
+        <li lang="uk"><strong>Натисніть «Додати ціль»</strong> — ціль з'явиться на панелі <strong>Цілі</strong> праворуч. Конфігуратор автоматично скидається, щоб ви могли задати наступну ціль.</li>
+        <li lang="en"><strong>Reorder goals</strong> — use the <strong>↑</strong> and <strong>↓</strong> buttons on each goal row to change the order. Use <strong>×</strong> to remove a goal.</li>
+        <li lang="uk"><strong>Змінити порядок цілей</strong> — використовуйте кнопки <strong>↑</strong> та <strong>↓</strong> у рядку кожної цілі. Натисніть <strong>×</strong>, щоб видалити ціль.</li>
       </ol>
 
-      <p lang="en">The <strong>Formula Preview</strong> panel on the right updates live and shows the full formula as readable text, for example:</p>
-      <p lang="uk">Панель <strong>Попередній перегляд формули</strong> праворуч оновлюється в реальному часі та відображає повну формулу у зрозумілому вигляді, наприклад:</p>
+      <p lang="en">During a running challenge a green <strong>✓</strong> appears on each goal row as it is met.</p>
+      <p lang="uk">Під час активного виклику зелена позначка <strong>✓</strong> з'являється в рядку кожної виконаної цілі.</p>
+
+      <p lang="en">The <strong>Goals</strong> panel on the right shows all configured goals and their pass status, for example:</p>
+      <p lang="uk">Панель <strong>Цілі</strong> праворуч відображає всі налаштовані цілі та їх стан виконання, наприклад:</p>
 
       <pre lang="en">Complete all:
 Goal 1: (Damage Dealt + Assisted Damage) ≥ 7 000 OR (Damage Dealt ≥ 5 000 AND Win ≥ 1)</pre>
