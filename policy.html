@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — WotStreamPlus</title>
+  <script>
+    (function () {
+      var p = new URLSearchParams(window.location.search);
+      var fromUrl = p.get('lang');
+      var saved = localStorage.getItem('wsp-lang');
+      var lang = fromUrl || saved || (/^(uk|ru)/i.test(navigator.language || '') ? 'uk' : 'en');
+      if (fromUrl) localStorage.setItem('wsp-lang', fromUrl);
+      document.documentElement.className = 'lang-' + lang;
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #4f7ef8;
+      --text: #e4e6f0;
+      --text-muted: #8890b0;
+      --sidebar-w: 220px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); }
+
+    /* ── i18n ── */
+    html.lang-en [lang="uk"] { display: none; }
+    html.lang-uk [lang="en"] { display: none; }
+
+    /* ── Layout ── */
+    .shell { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 0 20px 24px;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    .sidebar-logo span { color: var(--accent); }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      padding: 12px 20px 6px;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 8px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      font-size: 13px;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,126,248,0.08); }
+    .sidebar-nav.sections a { padding: 6px 20px 6px 28px; font-size: 12px; }
+
+    .lang-switcher {
+      margin-top: auto;
+      padding: 16px 20px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .lang-switcher button {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-switcher button:hover { color: var(--text); border-color: var(--accent); }
+    .lang-switcher button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 48px 40px;
+      max-width: 860px;
+    }
+
+    .page-header { margin-bottom: 40px; }
+    .page-header h1 { font-size: 26px; font-weight: 700; }
+    .page-header p { margin-top: 6px; color: var(--text-muted); font-size: 13px; }
+
+    /* ── Manual sections ── */
+    .manual-section { margin-bottom: 52px; scroll-margin-top: 32px; }
+
+    .manual-section h2 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .manual-section h3 { font-size: 14px; font-weight: 600; color: var(--accent); margin: 24px 0 10px; }
+
+    .manual-section p { line-height: 1.7; margin-bottom: 12px; }
+
+    .manual-section ul, .manual-section ol {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+    .manual-section li { line-height: 1.65; }
+    .manual-section ol { list-style: decimal; }
+    .manual-section ul { list-style: disc; }
+    .manual-section ul li::marker { color: var(--text-muted); }
+    .manual-section ol li::marker { color: var(--text-muted); font-size: 13px; }
+
+    .tip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .tip strong { color: var(--text); }
+
+    .page-footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">Wot<span>Stream+</span></div>
+
+    <p class="nav-section-label"><span lang="en">Pages</span><span lang="uk">Сторінки</span></p>
+    <ul class="sidebar-nav">
+      <li><a href="index.html"><span lang="en">Overview</span><span lang="uk">Огляд</span></a></li>
+      <li><a href="manual.html"><span lang="en">User Manual</span><span lang="uk">Посібник</span></a></li>
+      <li><a href="releases.html"><span lang="en">Releases</span><span lang="uk">Релізи</span></a></li>
+      <li><a href="downloads.html"><span lang="en">Downloads</span><span lang="uk">Завантаження</span></a></li>
+      <li><a href="policy.html" class="active"><span lang="en">Policy</span><span lang="uk">Політика</span></a></li>
+    </ul>
+
+    <p class="nav-section-label"><span lang="en">Sections</span><span lang="uk">Розділи</span></p>
+    <ul class="sidebar-nav sections">
+      <li><a href="#what-it-reads"><span lang="en">What It Reads</span><span lang="uk">Що читає</span></a></li>
+      <li><a href="#what-it-sends"><span lang="en">What It Sends Anywhere</span><span lang="uk">Що надсилає</span></a></li>
+      <li><a href="#local-storage"><span lang="en">Local Storage</span><span lang="uk">Локальне сховище</span></a></li>
+      <li><a href="#third-party"><span lang="en">Third-Party Services</span><span lang="uk">Сторонні сервіси</span></a></li>
+      <li><a href="#changes"><span lang="en">Changes</span><span lang="uk">Зміни</span></a></li>
+      <li><a href="#contact"><span lang="en">Contact</span><span lang="uk">Контакти</span></a></li>
+    </ul>
+
+    <div class="lang-switcher">
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+      <button id="btn-uk" onclick="setLang('uk')">UK</button>
+    </div>
+  </nav>
+
+  <main class="content">
+
+    <div class="page-header">
+      <h1><span lang="en">Privacy Policy</span><span lang="uk">Політика конфіденційності</span></h1>
+      <p>
+        <span lang="en">Last updated 2026-09-09. Applies to the WotStreamPlus desktop application.</span>
+        <span lang="uk">Востаннє оновлено 09.09.2026. Стосується десктопного застосунку WotStreamPlus.</span>
+      </p>
+    </div>
+
+    <section class="manual-section">
+      <p>
+        <span lang="en">WotStreamPlus is a free desktop companion app for World of Tanks streamers. It reads local game files to compute battle statistics and displays them in OBS Studio or a browser widget. This page explains, plainly, what data the app touches and where it goes.</span>
+        <span lang="uk">WotStreamPlus — безкоштовний десктопний застосунок-помічник для стримерів World of Tanks. Він читає локальні файли гри, щоб обчислити статистику боїв, і відображає її в OBS Studio або браузерному віджеті. Ця сторінка пояснює простими словами, яких даних торкається застосунок і куди вони потрапляють.</span>
+      </p>
+      <div class="tip">
+        <strong><span lang="en">Short version:</span><span lang="uk">Коротко:</span></strong>
+        <span lang="en"> everything stays on your computer. No account, no login, no subscription, and no data sent to our servers.</span>
+        <span lang="uk"> усе залишається на вашому комп'ютері. Без облікового запису, входу, підписки та надсилання даних на наші сервери.</span>
+      </div>
+    </section>
+
+    <section class="manual-section" id="what-it-reads">
+      <h2><span lang="en">What It Reads</span><span lang="uk">Що читає</span></h2>
+      <ul>
+        <li lang="en">Battle result files written by the bundled .wotmod into your World of Tanks installation folder (the one you point the app at in Settings).</li>
+        <li lang="uk">Файли результатів боїв, які записує вбудований .wotmod у папку встановлення World of Tanks (ту, яку ви вказуєте в Налаштуваннях).</li>
+        <li lang="en">Replay files, when a feature you use needs them (e.g. Onslaught tracking).</li>
+        <li lang="uk">Файли реплеїв, коли їх потребує функція, якою ви користуєтесь (наприклад, трекер Натиску).</li>
+      </ul>
+      <p>
+        <span lang="en">This requires broad access to your WoT installation folder because that folder can live on any drive you choose — the app has no way to know its location in advance.</span>
+        <span lang="uk">Це вимагає широкого доступу до папки встановлення WoT, оскільки ця папка може знаходитись на будь-якому диску за вашим вибором — застосунок не може знати її розташування заздалегідь.</span>
+      </p>
+    </section>
+
+    <section class="manual-section" id="what-it-sends">
+      <h2><span lang="en">What It Sends Anywhere</span><span lang="uk">Що надсилає</span></h2>
+      <p>
+        <span lang="en">Nothing, by default. WotStreamPlus does not require an account, does not log in to Wargaming or any other service, and does not verify a subscription — every feature is available locally with no server involved. The app makes no network requests to Symstriker's servers.</span>
+        <span lang="uk">Нічого, за замовчуванням. WotStreamPlus не потребує облікового запису, не входить у Wargaming чи будь-який інший сервіс і не перевіряє підписку — усі функції доступні локально без участі сервера. Застосунок не робить мережевих запитів до серверів Symstriker.</span>
+      </p>
+    </section>
+
+    <section class="manual-section" id="local-storage">
+      <h2><span lang="en">Local Storage</span><span lang="uk">Локальне сховище</span></h2>
+      <p>
+        <span lang="en">Configuration, HTML overlay widgets, and logs are written to <code>%LOCALAPPDATA%\WotStreamPlus</code> on your own machine. Uninstalling the app removes this folder. Nothing here is uploaded anywhere.</span>
+        <span lang="uk">Конфігурація, HTML-віджети оверлеїв та журнали записуються у <code>%LOCALAPPDATA%\WotStreamPlus</code> на вашому власному пристрої. Видалення застосунку прибирає цю папку. Ніщо звідси нікуди не завантажується.</span>
+      </p>
+    </section>
+
+    <section class="manual-section" id="third-party">
+      <h2><span lang="en">Third-Party Services</span><span lang="uk">Сторонні сервіси</span></h2>
+      <p>
+        <span lang="en"><strong>OBS Studio</strong> — if you enable OBS integration, the app connects to your own local OBS instance over a WebSocket connection on your machine. This never leaves your computer.</span>
+        <span lang="uk"><strong>OBS Studio</strong> — якщо ви вмикаєте інтеграцію з OBS, застосунок підключається до вашого власного локального екземпляра OBS через WebSocket-з'єднання на вашому пристрої. Це ніколи не виходить за межі вашого комп'ютера.</span>
+      </p>
+      <p>
+        <span lang="en"><strong>YouTube</strong> — the app includes an optional YouTube integration (live likes/viewer tracking, chat commands) that, when enabled, connects directly to Google's YouTube API using your own Google account credentials. This feature is currently disabled and not accessible in the app. When it ships, connecting is opt-in and requires you to sign in with your own Google account; chat messages and channel identifiers involved are exchanged directly with Google's API, never routed through Symstriker's servers. This section will be updated when the feature becomes available.</span>
+        <span lang="uk"><strong>YouTube</strong> — застосунок містить опціональну інтеграцію з YouTube (відстеження лайків/глядачів наживо, команди чату), яка, якщо ввімкнена, підключається безпосередньо до YouTube API Google з використанням ваших власних облікових даних Google. Наразі ця функція вимкнена та недоступна в застосунку. Коли вона з'явиться, підключення буде опціональним і потребуватиме входу з вашим власним обліковим записом Google; повідомлення чату та ідентифікатори каналів обмінюються напряму з API Google, ніколи не проходячи через сервери Symstriker. Цей розділ буде оновлено, коли функція стане доступною.</span>
+      </p>
+    </section>
+
+    <section class="manual-section" id="changes">
+      <h2><span lang="en">Changes to This Policy</span><span lang="uk">Зміни до цієї політики</span></h2>
+      <p>
+        <span lang="en">If WotStreamPlus's data practices change — for example, when the YouTube integration ships — this page will be updated and the "Last updated" date above will reflect it.</span>
+        <span lang="uk">Якщо практики роботи з даними WotStreamPlus зміняться — наприклад, коли з'явиться інтеграція з YouTube — цю сторінку буде оновлено, а дата «Востаннє оновлено» вище відображатиме це.</span>
+      </p>
+    </section>
+
+    <section class="manual-section" id="contact">
+      <h2><span lang="en">Contact</span><span lang="uk">Контакти</span></h2>
+      <p>
+        <span lang="en">Questions about this policy can be raised through the WotStreamPlus <a href="index.html">website</a>.</span>
+        <span lang="uk">Питання щодо цієї політики можна поставити через <a href="index.html">вебсайт</a> WotStreamPlus.</span>
+      </p>
+    </section>
+
+    <footer class="page-footer">
+      &copy; 2026 Symstriker. <span lang="en">All rights reserved.</span><span lang="uk">Усі права захищені.</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.className = 'lang-' + lang;
+    localStorage.setItem('wsp-lang', lang);
+    var url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-uk').classList.toggle('active', lang === 'uk');
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:') || a.hasAttribute('download')) return;
+    e.preventDefault();
+    var lang = (document.documentElement.className.match(/lang-(\w+)/) || [])[1];
+    var url = new URL(href, window.location.href);
+    if (lang) url.searchParams.set('lang', lang);
+    window.location.href = url.toString();
+  });
+
+  (function () {
+    var lang = /lang-(\w+)/.exec(document.documentElement.className);
+    if (lang) setLang(lang[1]);
+  })();
+</script>
+</body>
+</html>
