@@ -1,5 +1,12 @@
 RewriteEngine On
 
+# Never show raw directory listings (e.g. /downloads/ exposing every file in
+# it). This is also why /downloads (no extension) can't rewrite to
+# downloads.html below -- it's a real directory, so the rewrite condition
+# correctly skips it; nothing in the app or site links to it without ".html"
+# anyway, only /policy and /releases need the extensionless form.
+Options -Indexes
+
 # Serve <name>.html for requests to /<name> when the extensionless path
 # doesn't exist as a real file itself. Lets links like /policy, /releases
 # work without ".html" (used throughout WotStreamPlus's in-app links and
