@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Downloads — WotStreamPlus</title>
+  <script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>
   <script>
     (function () {
       var p = new URLSearchParams(window.location.search);
@@ -262,9 +263,13 @@
             <a href="releases.html"><span lang="en">Release notes</span><span lang="uk">Примітки до релізу</span></a>
           </div>
         </div>
-        <a class="download-btn" href="https://apps.microsoft.com/detail/9PMGNKCMPT1N" target="_blank" rel="noopener">
-          <span lang="en">Get it from Microsoft Store</span><span lang="uk">Отримати в Microsoft Store</span>
-        </a>
+        <ms-store-badge
+          id="storeBadge"
+          productid="9PMGNKCMPT1N"
+          producttitle="WotStreamPlus"
+          theme="dark"
+          window-mode="direct"
+          animation="on"></ms-store-badge>
       </div>
 
     </div>
@@ -288,6 +293,9 @@
     history.replaceState(null, '', url);
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-uk').classList.toggle('active', lang === 'uk');
+
+    var badge = document.getElementById('storeBadge');
+    if (badge) badge.setAttribute('language', lang === 'uk' ? 'uk-ua' : 'en-us');
   }
 
   document.addEventListener('click', function (e) {
