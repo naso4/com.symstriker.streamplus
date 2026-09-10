@@ -90,11 +90,14 @@ function Upload-File([string]$localFullPath, [string]$relativePath) {
     $resp.Close()
 }
 
-$files = Get-ChildItem $siteRoot -Recurse -File | Where-Object {
-    $rel = $_.FullName.Substring($siteRoot.Length + 1)
-    $topLevel = ($rel -split '\\')[0]
-    -not ($excludeNames -contains $topLevel)
-}
+# -Force is required to include dotfiles like .htaccess (Get-ChildItem hides
+# them by default). Excluded top-level entries (e.g. .git) are filtered out
+# BEFORE recursing into them, so we never walk .git's huge internal tree.
+# (Get-ChildItem on a file path with -Recurse -File just returns that file,
+# so this correctly covers both top-level files and files inside subfolders.)
+$files = Get-ChildItem $siteRoot -Force | Where-Object {
+    -not ($excludeNames -contains $_.Name)
+} | Get-ChildItem -Recurse -File -Force -ErrorAction SilentlyContinue
 
 Write-Host "Found $($files.Count) file(s) to deploy to ftp://$FtpHost$remotePathNormalized/`n"
 

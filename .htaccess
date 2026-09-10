@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Serve <name>.html for requests to /<name> when the extensionless path
+# doesn't exist as a real file itself. Lets links like /policy, /releases
+# work without ".html" (used throughout WotStreamPlus's in-app links and
+# the site's own downloads.html/releases.html cross-links).
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
