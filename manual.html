@@ -224,6 +224,7 @@
       <li><a href="#getting-started"><span lang="en">Getting Started</span><span lang="uk">Початок роботи</span></a></li>
       <li><a href="#battle-statistics"><span lang="en">Battle Statistics</span><span lang="uk">Бойова статистика</span></a></li>
       <li><a href="#onslaught-tracker"><span lang="en">Onslaught Tracker</span><span lang="uk">Трекер Натиску</span></a></li>
+      <li><a href="#personal-missions"><span lang="en">Personal Missions</span><span lang="uk">Особисті бойові задачі</span></a></li>
       <li><a href="#obs-integration"><span lang="en">OBS Integration</span><span lang="uk">Інтеграція OBS</span></a></li>
       <li><a href="#html-widgets"><span lang="en">HTML Widgets</span><span lang="uk">HTML-віджети</span></a></li>
       <li><a href="#ladder-mode"><span lang="en">Ladder Mode</span><span lang="uk">Режим драбини</span></a></li>
@@ -386,6 +387,33 @@
       <p lang="uk">Значки рангу відображаються на оверлеї поряд із вашим поточним рангом. Вони автоматично оновлюються при кожному оновленні гри.</p>
     </section>
 
+    <!-- Personal Missions -->
+    <section class="manual-section" id="personal-missions">
+      <h2><span lang="en">Personal Missions Tracker</span><span lang="uk">Трекер особистих бойових задач</span></h2>
+
+      <p lang="en">The Personal Missions tab tracks Personal Missions 3.0 (Windhund, Dravec, Black Rock) and 4.0 (Fossa) live during battle, showing your current chain and its objective progress on an overlay.</p>
+      <p lang="uk">Вкладка Особисті бойові задачі відстежує особисті бойові задачі 3.0 (Windhund, Dravec, Black Rock) та 4.0 (Fossa) у реальному часі під час бою, показуючи ваш поточний ланцюг і прогрес його цілей на оверлеї.</p>
+
+      <h3><span lang="en">What Is Displayed</span><span lang="uk">Що відображається</span></h3>
+
+      <ul>
+        <li lang="en"><strong>Chain tiles</strong> — the three missions in your active chain (Vanguard, Ambush, Assistance), with the current one highlighted</li>
+        <li lang="uk"><strong>Плитки ланцюга</strong> — три завдання вашого активного ланцюга (Авангард, Засідка, Підтримка), з виділенням поточного</li>
+        <li lang="en"><strong>Objective list</strong> — every condition for the active mission, using Wargaming's own official wording, with progress toward each</li>
+        <li lang="uk"><strong>Список цілей</strong> — усі умови активного завдання, з офіційним формулюванням Wargaming, з прогресом за кожною</li>
+        <li lang="en"><strong>Reward</strong> — what completing the mission grants</li>
+        <li lang="uk"><strong>Нагорода</strong> — що надається за виконання завдання</li>
+      </ul>
+
+      <p lang="en">Progress updates automatically after every battle. Between battles, when no mission is currently active, the overlay keeps showing the last-seen chain tiles with an empty objective list rather than a "waiting" placeholder — and disappears completely if no Personal Missions data is available at all, so it never leaves an empty frame on your scene.</p>
+      <p lang="uk">Прогрес оновлюється автоматично після кожного бою. Між боями, коли жодне завдання не активне, оверлей продовжує показувати плитки останнього відомого ланцюга з порожнім списком цілей замість напису «очікування» — і повністю зникає, якщо дані Особистих бойових задач взагалі відсутні, тож на сцені ніколи не залишається порожня рамка.</p>
+
+      <h3><span lang="en">Viewing on a Second Monitor</span><span lang="uk">Перегляд на другому моніторі</span></h3>
+
+      <p lang="en">Tick <strong>Show in separate window</strong> on the tab to open the widget in its own window instead of (or alongside) OBS — handy for keeping an eye on your progress on a second monitor. The window updates live on its own; closing it unchecks the box.</p>
+      <p lang="uk">Позначте <strong>Показати в окремому вікні</strong> на вкладці, щоб відкрити віджет в окремому вікні замість OBS (або поряд із ним) — зручно для спостереження за прогресом на другому моніторі. Вікно оновлюється самостійно; закриття вікна знімає позначку.</p>
+    </section>
+
     <!-- OBS Integration -->
     <section class="manual-section" id="obs-integration">
       <h2><span lang="en">OBS Studio Integration</span><span lang="uk">Інтеграція з OBS Studio</span></h2>
@@ -521,6 +549,9 @@
 
       <div class="tip" lang="en"><strong>Tip:</strong> The widget auto-refreshes every 5 seconds, so it stays current even if your streaming software caches the file briefly.</div>
       <div class="tip" lang="uk"><strong>Порада:</strong> Віджет автоматично оновлюється кожні 5 секунд, тому залишається актуальним навіть якщо ваше програмне забезпечення для стримінгу тимчасово кешує файл.</div>
+
+      <p lang="en">Tick <strong>Show in separate window</strong> to open the ladder widget in its own window — useful for watching your progress on a second monitor without opening OBS.</p>
+      <p lang="uk">Позначте <strong>Показати в окремому вікні</strong>, щоб відкрити віджет драбини в окремому вікні — корисно для спостереження за прогресом на другому моніторі без відкриття OBS.</p>
 
       <h3><span lang="en">Help</span><span lang="uk">Довідка</span></h3>
 
